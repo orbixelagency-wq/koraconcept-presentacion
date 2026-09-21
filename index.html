@@ -213,7 +213,7 @@ h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.025em;line-
 .strip img{width:100%;height:100%;object-fit:cover}
 
 /* ---------- Quote ---------- */
-.quote{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(28px,5vw,88px);align-items:start}
+.quote{display:grid;grid-template-columns:1fr;max-width:760px;margin-inline:auto;gap:clamp(28px,5vw,88px);align-items:start}
 .quote h2{margin-bottom:14px}
 .cart{margin-top:30px;border-top:1px solid var(--line)}
 .item{display:grid;grid-template-columns:56px 1fr auto auto;gap:16px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
@@ -392,7 +392,7 @@ h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.025em;line-
    CONFIGURACIÓN — edita aquí los datos de contacto
    ========================================================= */
 const CONFIG = {
-  email: "",          // p. ej. "comercial@koraconcept.com" (destino de las solicitudes)
+  email: "jordirawal@koraconcept.com", // destino de las solicitudes (no se muestra al cliente)
   phone: "",          // p. ej. "+34 600 000 000"
   web:   "",          // p. ej. "koraconcept.com"
   address: "Santa Coloma de Farners, Girona"
@@ -751,8 +751,6 @@ function cartHTML(){
 }
 
 function slideQuote(){
-  const rows = [["where",CONFIG.address],["phone",CONFIG.phone],["email",CONFIG.email],["web",CONFIG.web]]
-    .filter(r=>r[1]).map(([k,v])=>`<li><span>${t(k)}</span><span>${esc(v)}</span></li>`).join("");
   return `<section class="slide"><div class="inner"><div class="quote">
     <div>
       <h2 class="h-l">${t("quoteTitle")}</h2>
@@ -769,12 +767,6 @@ function slideQuote(){
         </div>
       </div>
     </div>
-    <aside class="contact-card">
-      <h3>${t("contactTitle")}</h3>
-      <p>${t("contactLead")}</p>
-      <ul class="contact-list">${rows}</ul>
-      <svg class="seal" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" fill="none" stroke="var(--brass)" stroke-width="1"/><circle cx="50" cy="50" r="34" fill="none" stroke="var(--brass)" stroke-width=".6"/><circle cx="50" cy="50" r="18" fill="var(--brass-soft)"/></svg>
-    </aside>
   </div></div></section>`;
 }
 
