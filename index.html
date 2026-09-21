@@ -1,7 +1,8 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" translate="no" class="notranslate">
 <head>
 <meta charset="utf-8">
+<meta name="google" content="notranslate">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light only">
 <meta name="supported-color-schemes" content="light">
@@ -350,10 +351,10 @@ h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.025em;line-
       <span class="tlabel" data-t="mySelection">Mi selección</span>
       <span class="badge" id="badge">0</span>
     </button>
-    <button class="tool" id="menuBtn" aria-label="Índice">
+    <button class="tool" id="menuBtn" aria-label="Índice" data-ta="a11yMenu">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
     </button>
-    <button class="tool" id="fsBtn" aria-label="Pantalla completa">
+    <button class="tool" id="fsBtn" aria-label="Pantalla completa" data-ta="a11yFs">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
     </button>
   </div>
@@ -364,22 +365,22 @@ h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.025em;line-
 <footer class="bottombar">
   <div class="counter" id="counter">1 / 11</div>
   <div class="navbtns">
-    <button class="navbtn" id="prev" aria-label="Anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 5l-7 7 7 7"/></svg></button>
-    <button class="navbtn" id="next" aria-label="Siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5l7 7-7 7"/></svg></button>
+    <button class="navbtn" id="prev" aria-label="Anterior" data-ta="a11yPrev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <button class="navbtn" id="next" aria-label="Siguiente" data-ta="a11yNext"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5l7 7-7 7"/></svg></button>
   </div>
 </footer>
 
-<div class="overlay lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Imagen">
+<div class="overlay lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Imagen" data-ta="a11yImage">
   <div class="lb-img"><img id="lbImg" alt=""></div>
-  <button class="lb-btn lb-close" data-close aria-label="Cerrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-  <button class="lb-btn lb-prev" id="lbPrev" aria-label="Anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 5l-7 7 7 7"/></svg></button>
-  <button class="lb-btn lb-next" id="lbNext" aria-label="Siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5l7 7-7 7"/></svg></button>
+  <button class="lb-btn lb-close" data-close aria-label="Cerrar" data-ta="a11yClose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <button class="lb-btn lb-prev" id="lbPrev" aria-label="Anterior" data-ta="a11yPrev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <button class="lb-btn lb-next" id="lbNext" aria-label="Siguiente" data-ta="a11yNext"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5l7 7-7 7"/></svg></button>
   <div class="lb-count" id="lbCount"></div>
 </div>
 
 <div class="overlay menu" id="menu" role="dialog" aria-modal="true">
   <div class="menu-panel">
-    <button class="lb-btn lb-close" data-close aria-label="Cerrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <button class="lb-btn lb-close" data-close aria-label="Cerrar" data-ta="a11yClose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
     <ol id="menuList"></ol>
     <p class="menu-help" data-t="help">Usa las flechas del teclado o desliza para avanzar. F activa la pantalla completa.</p>
   </div>
@@ -407,17 +408,17 @@ const IMG = {
 const LINES = [
   { id:"wermodin-logo", img:[1,2,3],
     kind:{es:"Exterior con logo",en:"Outdoor, branded"},
-    name:{es:"Wermodin Outdoor con logo",en:"Wermodin Outdoor logo tops"},
-    desc:{es:"Sobremesa de exterior con la imagen de tu marca impresa en toda la superficie. Redonda o cuadrada, lista para terraza.",
+    name:{es:"Wermodin Outdoor con logo",en:"Wermodin Outdoor tops with logo"},
+    desc:{es:"Tablero de exterior con la imagen de tu marca impresa en toda la superficie. Redondo o cuadrado, listo para la terraza.",
           en:"Outdoor table top with your brand printed across the whole surface. Round or square, ready for the terrace."},
     specs:[["material",{es:"Wermodin",en:"Wermodin"}],["use",{es:"Exterior",en:"Outdoor"}],["custom",{es:"Logo impreso",en:"Printed logo"}]],
     sizes:["R60","60x60","R70","70x70","R80","80x80"] },
   { id:"hidrofugo-pp", img:[4,5],
-    kind:{es:"Resistente al agua",en:"Waterproof"},
-    name:{es:"Aglomerado hidrófugo con aro de PP",en:"Waterproof chipboard with PP ring"},
-    desc:{es:"Tablero hidrófugo con aro perimetral de polipropileno y el logo de tu marca. La línea con más medidas, y otras bajo demanda.",
-          en:"Waterproof chipboard top with a polypropylene edge ring and your brand logo. Our widest size range, with other sizes on request."},
-    specs:[["material",{es:"Aglomerado hidrófugo",en:"Waterproof chipboard"}],["edge",{es:"Aro de polipropileno (PP)",en:"Polypropylene (PP) ring"}],["custom",{es:"Logo",en:"Logo"}]],
+    kind:{es:"Resistente a la humedad",en:"Moisture-resistant"},
+    name:{es:"Aglomerado hidrófugo con aro de PP",en:"Moisture-resistant chipboard with PP ring"},
+    desc:{es:"Tablero de aglomerado hidrófugo con aro perimetral de polipropileno y el logo de tu marca. Es la línea con más medidas, y hay otras bajo demanda.",
+          en:"Moisture-resistant chipboard top with a polypropylene edge ring and your brand logo. It has the widest size range, and other sizes are available on request."},
+    specs:[["material",{es:"Aglomerado hidrófugo",en:"Moisture-resistant chipboard"}],["edge",{es:"Aro de polipropileno (PP)",en:"Polypropylene (PP) ring"}],["custom",{es:"Logo",en:"Logo"}]],
     sizes:["R60","60x60","R70","70x70","R77","77x77","R80","80x80"], onDemand:true },
   { id:"hpl", img:[6,7,8],
     kind:{es:"Laminado de alta presión",en:"High-pressure laminate"},
@@ -429,22 +430,22 @@ const LINES = [
   { id:"hpl-compact", img:[9,10],
     kind:{es:"Compacto con fijación",en:"Compact with fixing system"},
     name:{es:"HPL Compacto con logo",en:"HPL Compact logo tops"},
-    desc:{es:"Tablero compacto con logo e incluye sistema de fijación a la base. Disponible en cualquier medida.",
+    desc:{es:"Tablero compacto con logo y sistema de fijación a la base incluido. Disponible en cualquier medida.",
           en:"Compact top with logo, supplied with a fixing system for the base. Available in any size."},
     specs:[["material",{es:"HPL compacto",en:"Compact HPL"}],["thickness",{es:"10 mm o 12 mm",en:"10 mm or 12 mm"}],["fixing",{es:"Incluido",en:"Included"}],["sizesL",{es:"Todas las medidas",en:"All sizes"}]],
     thickness:["10 mm","12 mm"], sizes:[], allSizes:true, freeSize:true },
   { id:"formica-bistro", img:[11],
     kind:{es:"Bistro de exterior",en:"Outdoor bistro"},
-    name:{es:"Formica bistro con aro de aluminio",en:"Formica bistro tops, aluminium ring"},
-    desc:{es:"El aire de café clásico en la terraza: superficie Formica decorativa con aro perimetral de aluminio.",
+    name:{es:"Bistro de Formica con aro de aluminio",en:"Formica bistro tops with aluminium ring"},
+    desc:{es:"El aire del café clásico en la terraza: superficie decorativa de Formica con aro perimetral de aluminio.",
           en:"The classic café look, outdoors: a decorative Formica surface finished with an aluminium edge ring."},
     specs:[["material",{es:"Formica",en:"Formica"}],["edge",{es:"Aro de aluminio",en:"Aluminium ring"}],["use",{es:"Exterior",en:"Outdoor"}]],
     sizes:["R60","60x60","R70","70x70","R80","80x80"] },
   { id:"wermodin-bistro", img:[12,13],
     kind:{es:"Bistro",en:"Bistro"},
-    name:{es:"Wermodin Bistro",en:"Wermodin Bistro table top"},
-    desc:{es:"Tablero redondo de estilo bistro. En las imágenes, acabados mármol negro y mármol blanco con aro dorado.",
-          en:"Round bistro-style top. Pictured in black marble and white marble finishes with a gold-tone ring."},
+    name:{es:"Wermodin Bistro",en:"Wermodin Bistro tops"},
+    desc:{es:"Tablero redondo de estilo bistro. En las imágenes, acabados efecto mármol negro y blanco con aro dorado.",
+          en:"Round bistro-style top. Pictured in black and white marble-effect finishes with a gold-tone ring."},
     specs:[["material",{es:"Wermodin",en:"Wermodin"}],["format",{es:"Redondo",en:"Round"}]],
     sizes:["R60","R70","R80"] }
 ];
@@ -452,15 +453,16 @@ const LINES = [
 /* ---------- Textos ---------- */
 const T = {
   es:{
+    a11yMenu:"Índice", a11yFs:"Pantalla completa", a11yPrev:"Anterior", a11yNext:"Siguiente", a11yClose:"Cerrar", a11yImage:"Imagen",
     mySelection:"Mi selección", help:"Usa las flechas del teclado o desliza para avanzar. F activa la pantalla completa.",
-    coverTitle:"Tableros con la marca de tu cliente", coverLead:"Sobremesas de exterior, HPL y bistro para hostelería y marcas de bebidas. Redondas o cuadradas, de Ø60 a Ø80 cm.",
+    coverTitle:"Tableros con la imagen de tu marca", coverLead:"Tableros de exterior, HPL y bistro para hostelería y marcas de bebidas. Redondos o cuadrados, de 60 a 80 cm, y otras medidas bajo demanda.",
     seeCollection:"Ver la colección", compareSizes:"Comparar medidas", ringText:"KORACONCEPT MOBILIARIO  ◦  TABLEROS PARA HOSTELERÍA  ◦  ",
-    introTitle:"La mesa es el primer anuncio que ve tu cliente", introLead:"Suministramos sobremesas personalizadas para bares, restaurantes, terrazas y marcas que quieren estar presentes en cada consumición.",
+    introTitle:"La mesa es el primer anuncio que ve tu cliente", introLead:"Suministramos tableros personalizados para bares, restaurantes, terrazas y marcas que quieren estar presentes en cada consumición.",
     p1t:"Tu marca en la mesa", p1d:"Logos e imágenes de marca integrados en la superficie del tablero.",
-    p2t:"Hechas para la terraza", p2d:"Materiales para exterior y resistentes al agua: Wermodin, HPL y aglomerado hidrófugo.",
-    p3t:"Medidas para cada local", p3d:"Redondas y cuadradas de 60 a 80 cm. Otras medidas bajo demanda.",
-    terrace:"Formica bistro en terraza",
-    indexTitle:"Seis líneas, un mismo objetivo", sizesTbd:"A medida", roundSquare:"redonda y cuadrada", roundOnly:"redonda", allSizes:"Todas las medidas",
+    p2t:"Pensados para la terraza", p2d:"Materiales para uso intensivo, exterior y humedad: Wermodin, HPL y aglomerado hidrófugo.",
+    p3t:"Medidas para cada local", p3d:"Redondos y cuadrados, de 60 a 80 cm. Otras medidas bajo demanda.",
+    terrace:"Bistro de Formica en terraza",
+    indexTitle:"Seis líneas, un mismo objetivo", sizesTbd:"A medida", roundSquare:"redondos y cuadrados", roundOnly:"solo redondos", allSizes:"Todas las medidas",
     material:"Material", use:"Uso", custom:"Personalización", edge:"Aro", thickness:"Grosor", fixing:"Sistema de fijación", sizesL:"Medidas", format:"Formato",
     chooseSize:"Elige medida", chooseThick:"Elige grosor", desiredSize:"Medida deseada", desiredPh:"p. ej. Ø70 o 70×120",
     onDemand:"Otras medidas bajo demanda.", add:"Añadir a mi selección", added:"Añadido a tu selección", needSize:"Elige una medida para añadirlo.", needThick:"Elige un grosor para añadirlo.",
@@ -469,9 +471,9 @@ const T = {
     shape:"Forma", round:"Redonda", square:"Cuadrada", size:"Medida", surface:"de superficie", availIn:"Disponible en",
     processTitle:"Del logo a la terraza en cuatro pasos",
     s1t:"Nos cuentas el proyecto", s1d:"Local o marca, número de mesas y el logo o diseño que quieres aplicar.",
-    s2t:"Elegimos el tablero", s2d:"Material, forma y medida según el uso: interior, terraza o campaña de marca.",
+    s2t:"Te ayudamos a elegir", s2d:"Material, forma y medida según el uso: interior, terraza o campaña de marca.",
     s3t:"Apruebas el diseño", s3d:"Preparamos la propuesta con tu imagen para que la valides antes de fabricar.",
-    s4t:"Producción y entrega", s4d:"Fabricamos la serie y la recibes lista para montar sobre la base.",
+    s4t:"Producción y entrega", s4d:"Se fabrica la serie y la recibes lista para montar sobre la base.",
     quoteTitle:"Pide presupuesto de tu selección", quoteLead:"Revisa los tableros que has elegido, ajusta cantidades y envíanos la solicitud.",
     emptyCart:"Todavía no has añadido ningún tablero. Elige un modelo y una medida en la colección.", goCollection:"Ir a la colección",
     units:"Unidades", remove:"Quitar", nameLbl:"Nombre y empresa", namePh:"Nombre, local o marca", notesLbl:"Detalles del proyecto", notesPh:"Logo, colores, fecha de entrega, tipo de base…",
@@ -479,18 +481,19 @@ const T = {
     contactTitle:"Hablemos de tu proyecto", contactLead:"Koraconcept Mobiliario. Tableros y mobiliario para hostelería.",
     where:"Dónde", phone:"Teléfono", email:"Email", web:"Web",
     mailSubject:"Solicitud de presupuesto: tableros Koraconcept", mailIntro:"Hola, me gustaría recibir presupuesto de los siguientes tableros:",
-    slides:["Portada","Qué hacemos","La colección","Wermodin Outdoor con logo","Aglomerado hidrófugo","Tableros HPL","HPL Compacto","Formica bistro","Wermodin Bistro","Comparar medidas","Cómo trabajamos","Presupuesto"]
+    slides:["Portada","Qué hacemos","La colección","Wermodin Outdoor con logo","Aglomerado hidrófugo","Tableros HPL","HPL Compacto","Bistro de Formica","Wermodin Bistro","Comparar medidas","Cómo trabajamos","Presupuesto"]
   },
   en:{
+    a11yMenu:"Contents", a11yFs:"Full screen", a11yPrev:"Previous", a11yNext:"Next", a11yClose:"Close", a11yImage:"Image",
     mySelection:"My selection", help:"Use the arrow keys or swipe to move. Press F for full screen.",
-    coverTitle:"Table tops that carry your client's brand", coverLead:"Outdoor, HPL and bistro table tops for hospitality and drinks brands. Round or square, from Ø60 to Ø80 cm.",
+    coverTitle:"Table tops that carry your brand", coverLead:"Outdoor, HPL and bistro table tops for hospitality venues and drinks brands. Round or square, from 60 to 80 cm, with other sizes on request.",
     seeCollection:"See the collection", compareSizes:"Compare sizes", ringText:"KORACONCEPT MOBILIARIO  ◦  TABLE TOPS FOR HOSPITALITY  ◦  ",
-    introTitle:"The table is the first ad your customer sees", introLead:"We supply custom table tops for bars, restaurants, terraces and brands that want to be present at every order.",
+    introTitle:"The table is the first ad your customer sees", introLead:"We supply custom table tops for bars, restaurants, terraces and brands that want to be there with every order.",
     p1t:"Your brand on the table", p1d:"Logos and brand artwork built into the table top surface.",
-    p2t:"Made for the terrace", p2d:"Outdoor and waterproof materials: Wermodin, HPL and waterproof chipboard.",
-    p3t:"Sizes for every venue", p3d:"Round and square from 60 to 80 cm. Other sizes on request.",
+    p2t:"Built for the terrace", p2d:"Materials for heavy use, outdoors and damp conditions: Wermodin, HPL and moisture-resistant chipboard.",
+    p3t:"Sizes for every venue", p3d:"Round and square, from 60 to 80 cm. Other sizes on request.",
     terrace:"Formica bistro on a terrace",
-    indexTitle:"Six lines, one goal", sizesTbd:"Made to size", roundSquare:"round and square", roundOnly:"round", allSizes:"All sizes",
+    indexTitle:"Six lines, one goal", sizesTbd:"Made to size", roundSquare:"round and square", roundOnly:"round only", allSizes:"All sizes",
     material:"Material", use:"Use", custom:"Branding", edge:"Ring", thickness:"Thickness", fixing:"Fixing system", sizesL:"Sizes", format:"Format",
     chooseSize:"Choose a size", chooseThick:"Choose thickness", desiredSize:"Size required", desiredPh:"e.g. Ø70 or 70×120",
     onDemand:"Other sizes on request.", add:"Add to my selection", added:"Added to your selection", needSize:"Choose a size to add it.", needThick:"Choose a thickness to add it.",
@@ -499,9 +502,9 @@ const T = {
     shape:"Shape", round:"Round", square:"Square", size:"Size", surface:"surface area", availIn:"Available in",
     processTitle:"From logo to terrace in four steps",
     s1t:"Tell us about the project", s1d:"Venue or brand, number of tables and the logo or artwork you want to use.",
-    s2t:"We choose the top", s2d:"Material, shape and size to suit the use: indoors, terrace or brand campaign.",
+    s2t:"We help you choose", s2d:"Material, shape and size to suit the use: indoors, terrace or brand campaign.",
     s3t:"You approve the design", s3d:"We prepare a proposal with your artwork for you to sign off before production.",
-    s4t:"Production and delivery", s4d:"We produce the run and deliver it ready to mount on the base.",
+    s4t:"Production and delivery", s4d:"The run is produced and delivered ready to fit onto the base.",
     quoteTitle:"Request a quote for your selection", quoteLead:"Review the tops you've chosen, adjust quantities and send us the request.",
     emptyCart:"You haven't added any table tops yet. Choose a model and a size in the collection.", goCollection:"Go to the collection",
     units:"Units", remove:"Remove", nameLbl:"Name and company", namePh:"Name, venue or brand", notesLbl:"Project details", notesPh:"Logo, colours, delivery date, base type…",
@@ -509,12 +512,19 @@ const T = {
     contactTitle:"Let's talk about your project", contactLead:"Koraconcept Mobiliario. Table tops and furniture for hospitality.",
     where:"Where", phone:"Phone", email:"Email", web:"Web",
     mailSubject:"Quote request: Koraconcept table tops", mailIntro:"Hello, I would like a quote for the following table tops:",
-    slides:["Cover","What we do","The collection","Wermodin Outdoor logo tops","Waterproof chipboard","HPL tops","HPL Compact","Formica bistro","Wermodin Bistro","Compare sizes","How we work","Quote"]
+    slides:["Cover","What we do","The collection","Wermodin Outdoor with logo","Moisture-resistant chipboard","HPL tops","HPL Compact","Formica bistro","Wermodin Bistro","Compare sizes","How we work","Quote"]
   }
 };
 
 /* ---------- Estado ---------- */
-let lang = "es";
+const LANG_KEY = "kora-lang";
+function initialLang(){
+  const q = new URLSearchParams(location.search).get("lang");
+  if(q==="es" || q==="en") return q;
+  try{ const v = localStorage.getItem(LANG_KEY); if(v==="es" || v==="en") return v; }catch(_){}
+  return "es";
+}
+let lang = initialLang();
 let current = 0;
 const state = { choice:{}, cart:[], sizeShape:"round", sizeVal:70, name:"", notes:"" };
 const t = k => T[lang][k] ?? k;
@@ -535,7 +545,7 @@ function sizesSummary(line){
   if(!line.sizes.length) return t("sizesTbd");
   const r = line.sizes.filter(s=>s.startsWith("R")).map(s=>+s.slice(1));
   const hasSq = line.sizes.some(s=>!s.startsWith("R"));
-  return `Ø${Math.min(...r)}–${Math.max(...r)} cm, ${t(hasSq?"roundSquare":"roundOnly")}`;
+  return `${hasSq?"":"Ø"}${Math.min(...r)}–${Math.max(...r)} cm, ${t(hasSq?"roundSquare":"roundOnly")}`;
 }
 
 function slideCover(){
@@ -775,7 +785,10 @@ function renderAll(){
   deck.innerHTML = slideCover() + slideIntro() + slideIndex() +
     LINES.map(slideProduct).join("") + slideSizes() + slideProcess() + slideQuote();
   document.querySelectorAll("[data-t]").forEach(el=>el.textContent = t(el.dataset.t));
+  document.querySelectorAll("[data-ta]").forEach(el=>el.setAttribute("aria-label", t(el.dataset.ta)));
+  document.querySelectorAll("[data-lang]").forEach(b=>b.setAttribute("aria-pressed", b.dataset.lang===lang));
   document.documentElement.lang = lang;
+  document.title = lang==="es" ? "Koraconcept, colección de tableros" : "Koraconcept, table top collection";
   renderMenu();
   go(current, true);
 }
@@ -801,7 +814,7 @@ function go(n, instant){
   document.getElementById("prev").disabled = n===0;
   document.getElementById("next").disabled = n===all.length-1;
   all[n].scrollTop = 0;
-  history.replaceState(null,"","#"+(n+1));
+  history.replaceState(null,"",location.pathname + location.search + "#"+(n+1));
   document.querySelectorAll("#menuList button").forEach((b,i)=>b.setAttribute("aria-current", i===n));
 }
 document.getElementById("prev").onclick = ()=>go(current-1);
@@ -810,6 +823,16 @@ document.getElementById("next").onclick = ()=>go(current+1);
 function renderMenu(){
   document.getElementById("menuList").innerHTML = T[lang].slides.map((s,i)=>
     `<li><button data-menugo="${i}" aria-current="${i===current}">${s}</button></li>`).join("");
+}
+
+/* ---------- Idioma ---------- */
+function setLang(next){
+  if(next!=="es" && next!=="en") return;
+  try{ localStorage.setItem(LANG_KEY, next); }catch(_){}
+  const u = new URL(location.href); u.searchParams.set("lang", next);
+  history.replaceState(null, "", u.pathname + u.search + u.hash);
+  if(next===lang) return;
+  lang = next; renderAll();
 }
 
 /* ---------- Interacciones ---------- */
@@ -832,7 +855,7 @@ document.addEventListener("click", e=>{
 
   if(d.go !== undefined){ e.preventDefault(); closeOverlays(); go(+d.go); return; }
   if(d.menugo !== undefined){ closeOverlays(); go(+d.menugo); return; }
-  if(d.lang){ if(d.lang!==lang){ lang = d.lang; document.querySelectorAll("[data-lang]").forEach(b=>b.setAttribute("aria-pressed", b.dataset.lang===lang)); renderAll(); } return; }
+  if(d.lang){ setLang(d.lang); return; }
   if(d.close !== undefined){ closeOverlays(); return; }
 
   if(d.thumb){
