@@ -1,0 +1,996 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light only">
+<meta name="supported-color-schemes" content="light">
+<meta name="theme-color" content="#FFFFFF">
+<title>Koraconcept, colección de tableros</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: light only;
+  --green:#1E3B34;
+  --green-2:#29503F;
+  --brass:#B8914B;
+  --brass-soft:#E9DCC2;
+  --alu:#FFFFFF;
+  --paper:#FFFFFF;
+  --ink:#16201D;
+  --muted:#5B6662;
+  --line:rgba(22,32,29,.14);
+  --display:"Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+  --body:"Figtree", "Helvetica Neue", Arial, sans-serif;
+  --ease-out:cubic-bezier(.23,1,.32,1);
+  --ease-io:cubic-bezier(.77,0,.175,1);
+  --pad:clamp(20px,4.2vw,64px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:#FFFFFF;color:#16201D;forced-color-adjust:none;font-family:var(--body);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0}
+img{display:block;max-width:100%}
+:focus-visible{outline:2px solid var(--brass);outline-offset:3px;border-radius:4px}
+
+/* ---------- Chrome ---------- */
+.topbar{position:fixed;inset:0 0 auto 0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:18px var(--pad);pointer-events:none;transition:color .3s ease}
+.topbar > *{pointer-events:auto}
+body.on-dark .topbar{color:var(--paper)}
+.wordmark{font-family:var(--display);font-weight:600;font-size:20px;letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
+.wordmark svg{width:22px;height:22px}
+.tools{display:flex;align-items:center;gap:6px}
+.tool{height:38px;min-width:38px;padding:0 12px;border-radius:19px;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:14px;font-weight:500;transition:background-color .2s ease,transform .12s ease}
+.tool:hover{background:rgba(22,32,29,.07)}
+body.on-dark .tool:hover{background:rgba(255,255,255,.1)}
+.tool:active{transform:scale(.96)}
+.tool svg{width:18px;height:18px}
+.lang{display:inline-flex;border:1px solid currentColor;border-radius:19px;height:32px;padding:2px;opacity:.9}
+.lang button{padding:0 10px;border-radius:15px;font-size:13px;font-weight:600}
+.lang button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+body.on-dark .lang button[aria-pressed="true"]{background:var(--paper);color:var(--green)}
+.badge{min-width:20px;height:20px;border-radius:10px;background:var(--brass);color:#fff;font-size:12px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;padding:0 6px}
+.badge.bump{animation:bump .35s var(--ease-out)}
+@keyframes bump{40%{transform:scale(1.25)}}
+
+.bottombar{position:fixed;inset:auto 0 0 0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:14px var(--pad) 18px;pointer-events:none}
+.bottombar > *{pointer-events:auto}
+body.on-dark .bottombar{color:var(--paper)}
+.counter{font-size:13px;font-variant-numeric:tabular-nums;opacity:.75}
+.navbtns{display:flex;gap:8px}
+.navbtn{width:46px;height:46px;border-radius:50%;border:1px solid currentColor;display:grid;place-items:center;transition:background-color .2s ease,color .2s ease,transform .12s ease,opacity .2s}
+.navbtn:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+body.on-dark .navbtn:hover{background:var(--paper);color:var(--green);border-color:var(--paper)}
+.navbtn:active{transform:scale(.94)}
+.navbtn[disabled]{opacity:.25;pointer-events:none}
+.navbtn svg{width:18px;height:18px}
+.progress{position:fixed;left:0;top:0;height:3px;background:var(--brass);z-index:41;transition:width .5s var(--ease-io)}
+
+/* ---------- Deck ---------- */
+.deck{position:fixed;inset:0}
+.slide{position:absolute;inset:0;background:#FFFFFF;padding:88px var(--pad) 90px;overflow-y:auto;opacity:0;visibility:hidden;transform:translateX(40px);transition:opacity .45s var(--ease-out),transform .55s var(--ease-out),visibility 0s linear .55s}
+.slide.before{transform:translateX(-40px)}
+.slide.active{opacity:1;visibility:visible;transform:none;transition:opacity .45s var(--ease-out),transform .55s var(--ease-out),visibility 0s}
+.slide.dark{background:#FFFFFF;color:var(--ink)}
+.slide.alu{background:#FFFFFF}
+.inner{max-width:1320px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;justify-content:center}
+
+h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.025em;line-height:1.02}
+.h-xl{font-size:clamp(44px,6.4vw,104px);font-variation-settings:"opsz" 96}
+.h-l{font-size:clamp(34px,4.3vw,64px);font-variation-settings:"opsz" 80}
+.h-m{font-size:clamp(26px,2.6vw,38px)}
+.lead{font-size:clamp(17px,1.35vw,21px);line-height:1.55;max-width:56ch;color:var(--muted)}
+
+
+.btn{height:52px;padding:0 24px;border-radius:26px;display:inline-flex;align-items:center;gap:10px;font-weight:600;font-size:15px;transition:background-color .2s ease,color .2s ease,transform .12s ease,border-color .2s}
+.btn:active{transform:scale(.97)}
+.btn-brass{background:var(--brass);color:#fff}
+.btn-brass:hover{background:#A57F3C}
+.btn-ink{background:var(--ink);color:var(--paper)}
+.btn-ink:hover{background:var(--green)}
+.btn-line{border:1px solid currentColor}
+.btn-line:hover{background:rgba(255,255,255,.1)}
+.alu .btn-line:hover,.slide:not(.dark) .btn-line:hover{background:rgba(22,32,29,.06)}
+
+/* ---------- Cover ---------- */
+.cover{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(24px,4vw,72px);align-items:center}
+.cover h1{max-width:12ch}
+.cover .lead{margin-top:28px}
+.cover .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:40px}
+.place{margin-top:48px;font-size:14px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.place svg{width:16px;height:16px}
+.disc-wrap{position:relative;aspect-ratio:1;width:min(100%,62vh);justify-self:center}
+.disc{position:absolute;inset:6%;border-radius:50%;overflow:hidden;box-shadow:0 30px 60px -28px rgba(22,32,29,.42)}
+.disc img{width:100%;height:100%;object-fit:cover;object-position:50% 45%;transform:scale(1.32);transform-origin:50% 50%}
+.disc-ring{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.disc-ring circle{fill:none;stroke:var(--brass);stroke-width:1.2}
+.disc-ring text{fill:var(--brass);font-family:var(--body);font-size:3.3px;letter-spacing:.5px}
+.slide.active .disc{animation:discIn 1.1s var(--ease-out) both}
+.slide.active .disc-ring .draw{stroke-dasharray:302;animation:draw 1.6s var(--ease-io) .25s both}
+.slide.active .cover-text > *{animation:rise .8s var(--ease-out) both}
+.slide.active .cover-text > *:nth-child(2){animation-delay:.08s}
+.slide.active .cover-text > *:nth-child(3){animation-delay:.16s}
+.slide.active .cover-text > *:nth-child(4){animation-delay:.24s}
+@keyframes discIn{from{opacity:0;transform:scale(.92) rotate(-12deg)}to{opacity:1;transform:none}}
+@keyframes draw{from{stroke-dashoffset:302}to{stroke-dashoffset:0}}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* ---------- Intro ---------- */
+.intro{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(28px,5vw,88px);align-items:center}
+.intro-photo{border-radius:6px;overflow:hidden;aspect-ratio:4/3.4;position:relative}
+.intro-photo img{width:100%;height:100%;object-fit:cover}
+.intro-photo figcaption{position:absolute;left:14px;bottom:14px;background:rgba(255,255,255,.93);padding:6px 12px;border-radius:14px;font-size:13px}
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:52px;border-top:1px solid var(--line);padding-top:28px}
+.pillar h3{font-size:20px;letter-spacing:-.01em;margin-bottom:8px}
+.pillar p{font-size:15px;color:var(--muted)}
+
+/* ---------- Collection index ---------- */
+.index{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(28px,5vw,88px);align-items:center}
+.index h2{margin-bottom:28px}
+.rows{list-style:none;border-top:1px solid var(--line)}
+.rows li{border-bottom:1px solid var(--line)}
+.row{width:100%;text-align:left;display:grid;grid-template-columns:1fr auto 24px;gap:20px;align-items:center;padding:18px 4px;transition:padding .25s var(--ease-out),color .2s}
+.row .rn{font-family:var(--display);font-size:clamp(20px,1.8vw,27px);font-weight:500;letter-spacing:-.015em}
+.row .rs{font-size:14px;color:var(--muted);text-align:right}
+.row svg{width:18px;height:18px;opacity:0;transform:translateX(-6px);transition:opacity .2s,transform .25s var(--ease-out)}
+.row:hover,.row.on{padding-left:14px}
+.row:hover svg,.row.on svg{opacity:1;transform:none}
+.row.on .rn{color:var(--green)}
+.preview{position:relative;aspect-ratio:4/5;border-radius:6px;overflow:hidden;background:#F1F2EF}
+.preview img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.03);transition:opacity .45s ease,transform .8s var(--ease-out)}
+.preview img.on{opacity:1;transform:none}
+
+/* ---------- Product ---------- */
+.product{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(28px,4.5vw,80px);align-items:center}
+.gallery{display:grid;grid-template-rows:1fr auto;gap:12px;height:min(72vh,720px)}
+.stage{position:relative;border-radius:6px;overflow:hidden;background:#F1F2EF;cursor:zoom-in}
+.stage img{width:100%;height:100%;object-fit:cover;transition:opacity .3s ease}
+.stage .zoom{position:absolute;right:12px;bottom:12px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.94);display:grid;place-items:center;transition:transform .15s ease}
+.stage:hover .zoom{transform:scale(1.06)}
+.stage .zoom svg{width:18px;height:18px}
+.thumbs{display:flex;gap:10px}
+.thumb{width:76px;height:76px;border-radius:4px;overflow:hidden;opacity:.55;outline:2px solid transparent;outline-offset:2px;transition:opacity .2s,outline-color .2s}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.thumb:hover{opacity:.85}
+.thumb[aria-current="true"]{opacity:1;outline-color:var(--brass)}
+.p-kind{font-size:14px;color:var(--muted);margin-bottom:14px}
+.product h2{max-width:14ch}
+.product .lead{margin-top:18px}
+.specs{margin-top:30px;border-top:1px solid var(--line)}
+.spec{display:grid;grid-template-columns:130px 1fr;gap:16px;padding:12px 0;border-bottom:1px solid var(--line);font-size:15px}
+.spec dt{color:var(--muted)}
+.config{margin-top:26px;display:grid;grid-template-columns:1fr 92px;gap:20px;align-items:start}
+.config-label{font-size:14px;color:var(--muted);margin-bottom:10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{height:38px;padding:0 14px;border-radius:19px;border:1px solid var(--line);background:#fff;font-size:14px;font-weight:500;font-variant-numeric:tabular-nums;transition:background-color .15s,border-color .15s,color .15s,transform .12s}
+.chip:hover{border-color:var(--ink)}
+.chip:active{transform:scale(.96)}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+
+.field{height:42px;border-radius:21px;border:1px solid var(--line);background:#fff;padding:0 16px;width:100%;max-width:320px}
+.mini{width:92px;height:92px}
+.mini .ref{fill:none;stroke:var(--muted);stroke-dasharray:2 3;stroke-width:1}
+.mini .shape{fill:var(--brass-soft);stroke:var(--brass);stroke-width:1.5;transition:all .35s var(--ease-out)}
+.mini text{font-size:10px;fill:var(--muted);font-family:var(--body)}
+.add-row{margin-top:24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.hint{font-size:14px;color:#8a5a1c;min-height:21px}
+
+/* ---------- Sizes ---------- */
+.sizes{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(28px,5vw,88px);align-items:center}
+.sizes .lead{margin-top:20px}
+.ctrl{margin-top:34px}
+.ctrl + .ctrl{margin-top:22px}
+
+.readout{margin-top:36px;padding-top:24px;border-top:1px solid var(--line);display:grid;grid-template-columns:auto 1fr;gap:10px 28px;align-items:baseline}
+.readout .big{font-family:var(--display);font-size:clamp(40px,4.5vw,64px);font-weight:600;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1}
+.readout .small{font-size:15px;color:var(--muted)}
+.avail{margin-top:24px}
+.avail ul{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.avail a{display:inline-flex;height:34px;align-items:center;padding:0 14px;border-radius:17px;border:1px solid var(--line);color:var(--ink);text-decoration:none;font-size:14px;transition:background-color .2s,border-color .2s}
+.avail a:hover{background:rgba(22,32,29,.05);border-color:var(--ink)}
+.board{width:100%;max-width:620px;justify-self:center}
+.board svg{width:100%;height:auto;overflow:visible}
+.board .grid line{stroke:rgba(22,32,29,.05);stroke-width:1}
+.board .ghost{fill:none;stroke:rgba(22,32,29,.22);stroke-width:1;stroke-dasharray:3 5;transition:opacity .3s}
+.board .sel{fill:rgba(184,145,75,.16);stroke:var(--brass);stroke-width:2.5;transition:all .5s var(--ease-out)}
+.board .lbl{fill:var(--muted);font-size:12px;font-family:var(--body)}
+.board .dim{fill:var(--ink);font-size:15px;font-weight:600;font-family:var(--body)}
+.board .dimline{stroke:var(--ink);stroke-width:1;transition:all .5s var(--ease-out)}
+
+/* ---------- Process ---------- */
+.process h2{max-width:18ch}
+.steps{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:56px;counter-reset:s}
+.steps li{padding:26px 28px 8px 0;border-top:2px solid var(--ink);position:relative;counter-increment:s}
+.steps li + li{padding-left:28px;border-left:1px solid var(--line)}
+.steps li::before{content:counter(s);font-family:var(--display);font-size:56px;font-weight:500;color:var(--brass);line-height:1;display:block;margin-bottom:20px;font-variant-numeric:tabular-nums}
+.steps h3{font-size:22px;letter-spacing:-.015em;margin-bottom:10px}
+.steps p{font-size:15px;color:var(--muted);max-width:30ch}
+.strip{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:48px}
+.strip button{aspect-ratio:1;border-radius:50%;overflow:hidden;transition:transform .3s var(--ease-out)}
+.strip button:hover{transform:rotate(-6deg) scale(1.03)}
+.strip img{width:100%;height:100%;object-fit:cover}
+
+/* ---------- Quote ---------- */
+.quote{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(28px,5vw,88px);align-items:start}
+.quote h2{margin-bottom:14px}
+.cart{margin-top:30px;border-top:1px solid var(--line)}
+.item{display:grid;grid-template-columns:56px 1fr auto auto;gap:16px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+.item img{width:56px;height:56px;border-radius:50%;object-fit:cover}
+.item .iname{font-weight:600}
+.item .isize{font-size:14px;color:var(--muted)}
+.qty{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:19px;height:38px}
+.qty button{width:34px;height:36px;font-size:18px}
+.qty input{width:48px;text-align:center;background:transparent;border:0;font-variant-numeric:tabular-nums;-moz-appearance:textfield}
+.qty input::-webkit-outer-spin-button,.qty input::-webkit-inner-spin-button{-webkit-appearance:none}
+.remove{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:var(--muted)}
+.remove:hover{background:rgba(22,32,29,.06);color:var(--ink)}
+.remove svg{width:16px;height:16px}
+.empty{padding:28px 0;color:var(--muted)}
+.empty .btn{margin-top:16px}
+.form{margin-top:28px;display:grid;gap:12px}
+.form label{font-size:14px;color:var(--muted)}
+.form input,.form textarea{width:100%;background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px;color:var(--ink)}
+.form textarea{min-height:92px;resize:vertical}
+.form input::placeholder,.form textarea::placeholder{color:#9AA3A0}
+.q-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+.contact-card{background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:clamp(24px,3vw,40px) clamp(24px,3vw,40px) 150px;position:relative;overflow:hidden}
+.contact-card h3{font-size:clamp(26px,2.4vw,34px);margin-bottom:12px}
+.contact-card p{color:var(--muted)}
+.contact-list{list-style:none;margin-top:24px;border-top:1px solid var(--line)}
+.contact-list li{padding:12px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:100px 1fr;gap:12px;font-size:15px}
+.contact-list span:first-child{color:var(--muted)}
+.contact-card .seal{position:absolute;right:-50px;bottom:-90px;width:210px;height:210px;opacity:.9}
+
+/* ---------- Overlays ---------- */
+.overlay{position:fixed;inset:0;z-index:60;display:none}
+.overlay.open{display:block}
+.lightbox{background:rgba(12,18,16,.94)}
+.lightbox.open .lb-img{animation:lbIn .3s var(--ease-out)}
+@keyframes lbIn{from{opacity:0;transform:scale(.97)}}
+.lb-img{position:absolute;inset:70px 90px;display:grid;place-items:center}
+.lb-img img{max-width:100%;max-height:100%;object-fit:contain;border-radius:4px}
+.lb-btn{position:absolute;width:48px;height:48px;border-radius:50%;color:#fff;display:grid;place-items:center;background:rgba(255,255,255,.08)}
+.lb-btn:hover{background:rgba(255,255,255,.18)}
+.lb-btn svg{width:20px;height:20px}
+.lb-close{top:16px;right:16px}
+.lb-prev{left:20px;top:50%;transform:translateY(-50%)}
+.lb-next{right:20px;top:50%;transform:translateY(-50%)}
+.lb-count{position:absolute;bottom:22px;left:0;right:0;text-align:center;color:rgba(255,255,255,.7);font-size:14px}
+.menu{background:rgba(22,32,29,.45)}
+.menu-panel{position:absolute;top:0;right:0;bottom:0;width:min(420px,100%);background:var(--paper);padding:84px 32px 32px;overflow-y:auto;box-shadow:-30px 0 60px -30px rgba(0,0,0,.35)}
+.menu.open .menu-panel{animation:panelIn .38s cubic-bezier(.32,.72,0,1)}
+@keyframes panelIn{from{transform:translateX(100%)}}
+.menu-panel .lb-close{color:var(--ink);background:rgba(22,32,29,.06)}
+.menu-panel ol{list-style:none;counter-reset:m}
+.menu-panel li button{width:100%;text-align:left;display:grid;grid-template-columns:34px 1fr;padding:13px 0;border-bottom:1px solid var(--line);font-size:16px;counter-increment:m}
+.menu-panel li button::before{content:counter(m);color:var(--muted);font-variant-numeric:tabular-nums;font-size:14px;padding-top:2px}
+.menu-panel li button:hover{color:var(--green)}
+.menu-panel li button[aria-current="true"]{font-weight:600}
+.menu-panel li button[aria-current="true"]::before{color:var(--brass)}
+.menu-help{margin-top:26px;font-size:13px;color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:86px;z-index:70;transform:translate(-50%,16px);background:var(--ink);color:var(--paper);padding:12px 20px;border-radius:24px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .25s ease,transform .35s var(--ease-out)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 960px){
+  .cover,.intro,.index,.product,.sizes,.quote{grid-template-columns:1fr}
+  .inner{justify-content:flex-start}
+  .slide{padding-top:80px;padding-bottom:100px}
+  .disc-wrap{width:min(78vw,380px);order:-1}
+  .cover h1{max-width:none}
+  .place{margin-top:28px}
+  .intro-photo{aspect-ratio:16/10}
+  .pillars{grid-template-columns:1fr;gap:18px}
+  .preview{display:none}
+  .gallery{height:auto;grid-template-rows:auto auto}
+  .stage{aspect-ratio:4/3.6}
+  .steps{grid-template-columns:1fr 1fr;row-gap:28px}
+  .steps li:nth-child(3){padding-left:0;border-left:0}
+  .strip{grid-template-columns:repeat(5,1fr)}
+  .board{max-width:420px;order:-1}
+  #fsBtn{display:none}
+  .tools{gap:0}
+  .tool{min-width:34px;padding:0 8px}
+  .lang{margin-right:4px}
+  .lang button{padding:0 8px}
+  .wordmark{font-size:17px}
+  .tool .tlabel{display:none}
+  .topbar{padding-top:12px;padding-bottom:12px;background:rgba(255,255,255,.93);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+  body.on-dark .topbar{background:rgba(30,59,52,.9)}
+  .bottombar{padding-top:10px;padding-bottom:12px;background:rgba(255,255,255,.93);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+  body.on-dark .bottombar{background:rgba(30,59,52,.9)}
+  .navbtn{width:42px;height:42px}
+  .toast{bottom:78px}
+}
+@media (max-width: 560px){
+  .steps{grid-template-columns:1fr}
+  .steps li + li{padding-left:0;border-left:0}
+  .spec{grid-template-columns:100px 1fr}
+  .item{grid-template-columns:44px 1fr auto;row-gap:8px}
+  .item img{width:44px;height:44px}
+  .item .qty{grid-column:2}
+  .lb-img{inset:64px 12px 64px}
+  .lb-prev,.lb-next{top:auto;bottom:10px;transform:none}
+  .row{grid-template-columns:1fr 20px}
+  .row .rs{display:none}
+}
+@media (prefers-color-scheme: dark){
+  html,body{background:#FFFFFF;color:#16201D}
+  .slide,.slide.dark,.slide.alu{background:#FFFFFF;color:#16201D}
+  .topbar,.bottombar{background:rgba(255,255,255,.93);color:#16201D}
+  .chip,.field,.form input,.form textarea,.contact-card{background:#FFFFFF;color:#16201D}
+  .chip[aria-pressed="true"]{background:var(--ink);color:#FFFFFF}
+  .btn-ink{background:var(--ink);color:#FFFFFF}
+  .btn-brass{background:var(--brass);color:#FFFFFF}
+  .menu-panel{background:#FFFFFF;color:#16201D}
+}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms !important;animation-delay:0s !important;transition-duration:.001ms !important}
+}
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<header class="topbar">
+  <div class="wordmark" aria-label="Koraconcept">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="6.2" fill="var(--brass)"/></svg>
+    Koraconcept
+  </div>
+  <div class="tools">
+    <div class="lang" role="group" aria-label="Idioma / Language">
+      <button data-lang="es" aria-pressed="true">ES</button>
+      <button data-lang="en" aria-pressed="false">EN</button>
+    </div>
+    <button class="tool" id="cartBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4"/></svg>
+      <span class="tlabel" data-t="mySelection">Mi selección</span>
+      <span class="badge" id="badge">0</span>
+    </button>
+    <button class="tool" id="menuBtn" aria-label="Índice">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+    </button>
+    <button class="tool" id="fsBtn" aria-label="Pantalla completa">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+    </button>
+  </div>
+</header>
+
+<main class="deck" id="deck"></main>
+
+<footer class="bottombar">
+  <div class="counter" id="counter">1 / 11</div>
+  <div class="navbtns">
+    <button class="navbtn" id="prev" aria-label="Anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <button class="navbtn" id="next" aria-label="Siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5l7 7-7 7"/></svg></button>
+  </div>
+</footer>
+
+<div class="overlay lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Imagen">
+  <div class="lb-img"><img id="lbImg" alt=""></div>
+  <button class="lb-btn lb-close" data-close aria-label="Cerrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <button class="lb-btn lb-prev" id="lbPrev" aria-label="Anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <button class="lb-btn lb-next" id="lbNext" aria-label="Siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5l7 7-7 7"/></svg></button>
+  <div class="lb-count" id="lbCount"></div>
+</div>
+
+<div class="overlay menu" id="menu" role="dialog" aria-modal="true">
+  <div class="menu-panel">
+    <button class="lb-btn lb-close" data-close aria-label="Cerrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <ol id="menuList"></ol>
+    <p class="menu-help" data-t="help">Usa las flechas del teclado o desliza para avanzar. F activa la pantalla completa.</p>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* =========================================================
+   CONFIGURACIÓN — edita aquí los datos de contacto
+   ========================================================= */
+const CONFIG = {
+  email: "",          // p. ej. "comercial@koraconcept.com" (destino de las solicitudes)
+  phone: "",          // p. ej. "+34 600 000 000"
+  web:   "",          // p. ej. "koraconcept.com"
+  address: "Santa Coloma de Farners, Girona"
+};
+
+const IMG = {
+  1:"assets/tablero-01.jpg",2:"assets/tablero-02.jpg",3:"assets/tablero-03.jpg",4:"assets/tablero-04.jpg",5:"assets/tablero-05.jpg",6:"assets/tablero-06.jpg",7:"assets/tablero-07.jpg",
+  8:"assets/tablero-08.jpg",9:"assets/tablero-09.jpg",10:"assets/tablero-10.jpg",11:"assets/tablero-11.jpg",12:"assets/tablero-12.jpg",13:"assets/tablero-13.jpg"
+};
+
+/* ---------- Colección (contenido del documento) ---------- */
+const LINES = [
+  { id:"wermodin-logo", img:[1,2,3],
+    kind:{es:"Exterior con logo",en:"Outdoor, branded"},
+    name:{es:"Wermodin Outdoor con logo",en:"Wermodin Outdoor logo tops"},
+    desc:{es:"Sobremesa de exterior con la imagen de tu marca impresa en toda la superficie. Redonda o cuadrada, lista para terraza.",
+          en:"Outdoor table top with your brand printed across the whole surface. Round or square, ready for the terrace."},
+    specs:[["material",{es:"Wermodin",en:"Wermodin"}],["use",{es:"Exterior",en:"Outdoor"}],["custom",{es:"Logo impreso",en:"Printed logo"}]],
+    sizes:["R60","60x60","R70","70x70","R80","80x80"] },
+  { id:"hidrofugo-pp", img:[4,5],
+    kind:{es:"Resistente al agua",en:"Waterproof"},
+    name:{es:"Aglomerado hidrófugo con aro de PP",en:"Waterproof chipboard with PP ring"},
+    desc:{es:"Tablero hidrófugo con aro perimetral de polipropileno y el logo de tu marca. La línea con más medidas, y otras bajo demanda.",
+          en:"Waterproof chipboard top with a polypropylene edge ring and your brand logo. Our widest size range, with other sizes on request."},
+    specs:[["material",{es:"Aglomerado hidrófugo",en:"Waterproof chipboard"}],["edge",{es:"Aro de polipropileno (PP)",en:"Polypropylene (PP) ring"}],["custom",{es:"Logo",en:"Logo"}]],
+    sizes:["R60","60x60","R70","70x70","R77","77x77","R80","80x80"], onDemand:true },
+  { id:"hpl", img:[6,7,8],
+    kind:{es:"Laminado de alta presión",en:"High-pressure laminate"},
+    name:{es:"Tableros HPL",en:"HPL tops"},
+    desc:{es:"Impresión a todo color para campañas de marca: logos, fondos y motivos gráficos, en formato redondo o cuadrado.",
+          en:"Full-colour printing for brand campaigns: logos, backgrounds and graphic patterns, in round or square formats."},
+    specs:[["material",{es:"HPL",en:"HPL"}],["custom",{es:"Diseño a todo color",en:"Full-colour design"}]],
+    sizes:[], freeSize:true },
+  { id:"hpl-compact", img:[9,10],
+    kind:{es:"Compacto con fijación",en:"Compact with fixing system"},
+    name:{es:"HPL Compacto con logo",en:"HPL Compact logo tops"},
+    desc:{es:"Tablero compacto con logo e incluye sistema de fijación a la base. Disponible en cualquier medida.",
+          en:"Compact top with logo, supplied with a fixing system for the base. Available in any size."},
+    specs:[["material",{es:"HPL compacto",en:"Compact HPL"}],["thickness",{es:"10 mm o 12 mm",en:"10 mm or 12 mm"}],["fixing",{es:"Incluido",en:"Included"}],["sizesL",{es:"Todas las medidas",en:"All sizes"}]],
+    thickness:["10 mm","12 mm"], sizes:[], allSizes:true, freeSize:true },
+  { id:"formica-bistro", img:[11],
+    kind:{es:"Bistro de exterior",en:"Outdoor bistro"},
+    name:{es:"Formica bistro con aro de aluminio",en:"Formica bistro tops, aluminium ring"},
+    desc:{es:"El aire de café clásico en la terraza: superficie Formica decorativa con aro perimetral de aluminio.",
+          en:"The classic café look, outdoors: a decorative Formica surface finished with an aluminium edge ring."},
+    specs:[["material",{es:"Formica",en:"Formica"}],["edge",{es:"Aro de aluminio",en:"Aluminium ring"}],["use",{es:"Exterior",en:"Outdoor"}]],
+    sizes:["R60","60x60","R70","70x70","R80","80x80"] },
+  { id:"wermodin-bistro", img:[12,13],
+    kind:{es:"Bistro",en:"Bistro"},
+    name:{es:"Wermodin Bistro",en:"Wermodin Bistro table top"},
+    desc:{es:"Tablero redondo de estilo bistro. En las imágenes, acabados mármol negro y mármol blanco con aro dorado.",
+          en:"Round bistro-style top. Pictured in black marble and white marble finishes with a gold-tone ring."},
+    specs:[["material",{es:"Wermodin",en:"Wermodin"}],["format",{es:"Redondo",en:"Round"}]],
+    sizes:["R60","R70","R80"] }
+];
+
+/* ---------- Textos ---------- */
+const T = {
+  es:{
+    mySelection:"Mi selección", help:"Usa las flechas del teclado o desliza para avanzar. F activa la pantalla completa.",
+    coverTitle:"Tableros con la marca de tu cliente", coverLead:"Sobremesas de exterior, HPL y bistro para hostelería y marcas de bebidas. Redondas o cuadradas, de Ø60 a Ø80 cm.",
+    seeCollection:"Ver la colección", compareSizes:"Comparar medidas", ringText:"KORACONCEPT MOBILIARIO  ◦  TABLEROS PARA HOSTELERÍA  ◦  ",
+    introTitle:"La mesa es el primer anuncio que ve tu cliente", introLead:"Suministramos sobremesas personalizadas para bares, restaurantes, terrazas y marcas que quieren estar presentes en cada consumición.",
+    p1t:"Tu marca en la mesa", p1d:"Logos e imágenes de marca integrados en la superficie del tablero.",
+    p2t:"Hechas para la terraza", p2d:"Materiales para exterior y resistentes al agua: Wermodin, HPL y aglomerado hidrófugo.",
+    p3t:"Medidas para cada local", p3d:"Redondas y cuadradas de 60 a 80 cm. Otras medidas bajo demanda.",
+    terrace:"Formica bistro en terraza",
+    indexTitle:"Seis líneas, un mismo objetivo", sizesTbd:"A medida", roundSquare:"redonda y cuadrada", roundOnly:"redonda", allSizes:"Todas las medidas",
+    material:"Material", use:"Uso", custom:"Personalización", edge:"Aro", thickness:"Grosor", fixing:"Sistema de fijación", sizesL:"Medidas", format:"Formato",
+    chooseSize:"Elige medida", chooseThick:"Elige grosor", desiredSize:"Medida deseada", desiredPh:"p. ej. Ø70 o 70×120",
+    onDemand:"Otras medidas bajo demanda.", add:"Añadir a mi selección", added:"Añadido a tu selección", needSize:"Elige una medida para añadirlo.", needThick:"Elige un grosor para añadirlo.",
+    zoom:"Ampliar imagen",
+    sizesTitle:"Compara medidas a escala", sizesLead:"Todas las siluetas están dibujadas a la misma escala. Elige forma y medida para ver qué líneas la ofrecen.",
+    shape:"Forma", round:"Redonda", square:"Cuadrada", size:"Medida", surface:"de superficie", availIn:"Disponible en",
+    processTitle:"Del logo a la terraza en cuatro pasos",
+    s1t:"Nos cuentas el proyecto", s1d:"Local o marca, número de mesas y el logo o diseño que quieres aplicar.",
+    s2t:"Elegimos el tablero", s2d:"Material, forma y medida según el uso: interior, terraza o campaña de marca.",
+    s3t:"Apruebas el diseño", s3d:"Preparamos la propuesta con tu imagen para que la valides antes de fabricar.",
+    s4t:"Producción y entrega", s4d:"Fabricamos la serie y la recibes lista para montar sobre la base.",
+    quoteTitle:"Pide presupuesto de tu selección", quoteLead:"Revisa los tableros que has elegido, ajusta cantidades y envíanos la solicitud.",
+    emptyCart:"Todavía no has añadido ningún tablero. Elige un modelo y una medida en la colección.", goCollection:"Ir a la colección",
+    units:"Unidades", remove:"Quitar", nameLbl:"Nombre y empresa", namePh:"Nombre, local o marca", notesLbl:"Detalles del proyecto", notesPh:"Logo, colores, fecha de entrega, tipo de base…",
+    send:"Enviar solicitud", copy:"Copiar solicitud", copied:"Solicitud copiada",
+    contactTitle:"Hablemos de tu proyecto", contactLead:"Koraconcept Mobiliario. Tableros y mobiliario para hostelería.",
+    where:"Dónde", phone:"Teléfono", email:"Email", web:"Web",
+    mailSubject:"Solicitud de presupuesto: tableros Koraconcept", mailIntro:"Hola, me gustaría recibir presupuesto de los siguientes tableros:",
+    slides:["Portada","Qué hacemos","La colección","Wermodin Outdoor con logo","Aglomerado hidrófugo","Tableros HPL","HPL Compacto","Formica bistro","Wermodin Bistro","Comparar medidas","Cómo trabajamos","Presupuesto"]
+  },
+  en:{
+    mySelection:"My selection", help:"Use the arrow keys or swipe to move. Press F for full screen.",
+    coverTitle:"Table tops that carry your client's brand", coverLead:"Outdoor, HPL and bistro table tops for hospitality and drinks brands. Round or square, from Ø60 to Ø80 cm.",
+    seeCollection:"See the collection", compareSizes:"Compare sizes", ringText:"KORACONCEPT MOBILIARIO  ◦  TABLE TOPS FOR HOSPITALITY  ◦  ",
+    introTitle:"The table is the first ad your customer sees", introLead:"We supply custom table tops for bars, restaurants, terraces and brands that want to be present at every order.",
+    p1t:"Your brand on the table", p1d:"Logos and brand artwork built into the table top surface.",
+    p2t:"Made for the terrace", p2d:"Outdoor and waterproof materials: Wermodin, HPL and waterproof chipboard.",
+    p3t:"Sizes for every venue", p3d:"Round and square from 60 to 80 cm. Other sizes on request.",
+    terrace:"Formica bistro on a terrace",
+    indexTitle:"Six lines, one goal", sizesTbd:"Made to size", roundSquare:"round and square", roundOnly:"round", allSizes:"All sizes",
+    material:"Material", use:"Use", custom:"Branding", edge:"Ring", thickness:"Thickness", fixing:"Fixing system", sizesL:"Sizes", format:"Format",
+    chooseSize:"Choose a size", chooseThick:"Choose thickness", desiredSize:"Size required", desiredPh:"e.g. Ø70 or 70×120",
+    onDemand:"Other sizes on request.", add:"Add to my selection", added:"Added to your selection", needSize:"Choose a size to add it.", needThick:"Choose a thickness to add it.",
+    zoom:"Enlarge image",
+    sizesTitle:"Compare sizes to scale", sizesLead:"Every outline is drawn at the same scale. Pick a shape and size to see which lines offer it.",
+    shape:"Shape", round:"Round", square:"Square", size:"Size", surface:"surface area", availIn:"Available in",
+    processTitle:"From logo to terrace in four steps",
+    s1t:"Tell us about the project", s1d:"Venue or brand, number of tables and the logo or artwork you want to use.",
+    s2t:"We choose the top", s2d:"Material, shape and size to suit the use: indoors, terrace or brand campaign.",
+    s3t:"You approve the design", s3d:"We prepare a proposal with your artwork for you to sign off before production.",
+    s4t:"Production and delivery", s4d:"We produce the run and deliver it ready to mount on the base.",
+    quoteTitle:"Request a quote for your selection", quoteLead:"Review the tops you've chosen, adjust quantities and send us the request.",
+    emptyCart:"You haven't added any table tops yet. Choose a model and a size in the collection.", goCollection:"Go to the collection",
+    units:"Units", remove:"Remove", nameLbl:"Name and company", namePh:"Name, venue or brand", notesLbl:"Project details", notesPh:"Logo, colours, delivery date, base type…",
+    send:"Send request", copy:"Copy request", copied:"Request copied",
+    contactTitle:"Let's talk about your project", contactLead:"Koraconcept Mobiliario. Table tops and furniture for hospitality.",
+    where:"Where", phone:"Phone", email:"Email", web:"Web",
+    mailSubject:"Quote request: Koraconcept table tops", mailIntro:"Hello, I would like a quote for the following table tops:",
+    slides:["Cover","What we do","The collection","Wermodin Outdoor logo tops","Waterproof chipboard","HPL tops","HPL Compact","Formica bistro","Wermodin Bistro","Compare sizes","How we work","Quote"]
+  }
+};
+
+/* ---------- Estado ---------- */
+let lang = "es";
+let current = 0;
+const state = { choice:{}, cart:[], sizeShape:"round", sizeVal:70, name:"", notes:"" };
+const t = k => T[lang][k] ?? k;
+const L = o => o[lang];
+const fmtSize = s => s.startsWith("R") ? "Ø" + s.slice(1) : s.replace("x","×");
+const icon = {
+  arrow:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+  zoom:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4 4M11 8v6M8 11h6"/></svg>',
+  x:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+  pin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>'
+};
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const PRODUCT_START = 3;
+
+/* ---------- Render de diapositivas ---------- */
+function sizesSummary(line){
+  if(line.allSizes) return t("allSizes");
+  if(!line.sizes.length) return t("sizesTbd");
+  const r = line.sizes.filter(s=>s.startsWith("R")).map(s=>+s.slice(1));
+  const hasSq = line.sizes.some(s=>!s.startsWith("R"));
+  return `Ø${Math.min(...r)}–${Math.max(...r)} cm, ${t(hasSq?"roundSquare":"roundOnly")}`;
+}
+
+function slideCover(){
+  const txt = (t("ringText")).repeat(2);
+  return `<section class="slide"><div class="inner"><div class="cover">
+    <div class="cover-text">
+      <h1 class="h-xl">${t("coverTitle")}</h1>
+      <p class="lead">${t("coverLead")}</p>
+      <div class="actions">
+        <button class="btn btn-brass" data-go="2">${t("seeCollection")}</button>
+        <button class="btn btn-line" data-go="9">${t("compareSizes")}</button>
+      </div>
+      <p class="place">${icon.pin}${esc(CONFIG.address)}</p>
+    </div>
+    <div class="disc-wrap" aria-hidden="true">
+      <div class="disc"><img src="${IMG[3]}" alt=""></div>
+      <svg class="disc-ring" viewBox="0 0 100 100">
+        <defs><path id="ringPath" d="M50,50 m-48,0 a48,48 0 1,1 96,0 a48,48 0 1,1 -96,0"/></defs>
+        <circle class="draw" cx="50" cy="50" r="45"/>
+        <text><textPath href="#ringPath">${txt}</textPath></text>
+      </svg>
+    </div>
+  </div></div></section>`;
+}
+
+function slideIntro(){
+  return `<section class="slide"><div class="inner"><div class="intro">
+    <div>
+      <h2 class="h-l">${t("introTitle")}</h2>
+      <p class="lead" style="margin-top:22px">${t("introLead")}</p>
+      <div class="pillars">
+        <div class="pillar"><h3>${t("p1t")}</h3><p>${t("p1d")}</p></div>
+        <div class="pillar"><h3>${t("p2t")}</h3><p>${t("p2d")}</p></div>
+        <div class="pillar"><h3>${t("p3t")}</h3><p>${t("p3d")}</p></div>
+      </div>
+    </div>
+    <figure class="intro-photo"><img src="${IMG[11]}" alt="${t("terrace")}"><figcaption>${t("terrace")}</figcaption></figure>
+  </div></div></section>`;
+}
+
+function slideIndex(){
+  const rows = LINES.map((l,i)=>`<li><button class="row${i===0?" on":""}" data-go="${PRODUCT_START+i}" data-prev="${i}">
+      <span class="rn">${L(l.name)}</span><span class="rs">${sizesSummary(l)}</span>${icon.arrow}</button></li>`).join("");
+  const imgs = LINES.map((l,i)=>`<img src="${IMG[l.img[0]]}" alt="" class="${i===0?"on":""}" data-pimg="${i}">`).join("");
+  return `<section class="slide alu"><div class="inner"><div class="index">
+    <div><h2 class="h-l">${t("indexTitle")}</h2><ul class="rows">${rows}</ul></div>
+    <div class="preview" aria-hidden="true">${imgs}</div>
+  </div></div></section>`;
+}
+
+function miniSVG(code){
+  let shape = "";
+  if(code){
+    const round = code.startsWith("R");
+    const n = parseInt(code.replace("R",""),10);
+    const s = n/80*80;
+    shape = round
+      ? `<circle class="shape" cx="46" cy="46" r="${s/2}"/>`
+      : `<rect class="shape" x="${46-s/2}" y="${46-s/2}" width="${s}" height="${s}" rx="1"/>`;
+  }
+  return `<svg class="mini" viewBox="0 0 92 92" aria-hidden="true">
+    <rect class="ref" x="6" y="6" width="80" height="80"/>
+    ${shape || '<circle class="shape" cx="46" cy="46" r="0"/>'}
+  </svg>`;
+}
+
+function slideProduct(line, i){
+  const ch = state.choice[line.id] || {};
+  const bg = i % 2 ? "alu" : "";
+  const thumbs = line.img.length > 1 ? `<div class="thumbs">${line.img.map((n,k)=>
+      `<button class="thumb" data-thumb="${line.id}" data-k="${k}" aria-current="${k===0}" aria-label="${k+1}"><img src="${IMG[n]}" alt=""></button>`).join("")}</div>` : "";
+  const specs = line.specs.map(([k,v])=>`<div class="spec"><dt>${t(k)}</dt><dd>${L(v)}</dd></div>`).join("");
+  let config = "";
+  if(line.sizes.length){
+    config += `<div><div class="config-label">${t("chooseSize")}</div><div class="chips">${line.sizes.map(s=>
+      `<button class="chip" data-size="${line.id}" data-v="${s}" aria-pressed="${ch.size===s}">${fmtSize(s)}</button>`).join("")}</div>
+      ${line.onDemand ? `<p class="config-label" style="margin-top:10px">${t("onDemand")}</p>`:""}</div>
+      <div>${miniSVG(ch.size)}</div>`;
+  }
+  if(line.thickness){
+    config += `<div style="grid-column:1/-1"><div class="config-label">${t("chooseThick")}</div><div class="chips">${line.thickness.map(s=>
+      `<button class="chip" data-thick="${line.id}" data-v="${s}" aria-pressed="${ch.thick===s}">${s}</button>`).join("")}</div></div>`;
+  }
+  if(line.freeSize){
+    config += `<div style="grid-column:1/-1"><label class="config-label" for="fs-${line.id}" style="display:block">${t("desiredSize")}</label>
+      <input class="field" id="fs-${line.id}" data-free="${line.id}" placeholder="${t("desiredPh")}" value="${esc(ch.free||"")}"></div>`;
+  }
+  return `<section class="slide ${bg}"><div class="inner"><div class="product">
+    <div class="gallery">
+      <button class="stage" data-open="${line.id}" data-k="0" aria-label="${t("zoom")}">
+        <img src="${IMG[line.img[0]]}" alt="${L(line.name)}" data-stage="${line.id}">
+        <span class="zoom">${icon.zoom}</span>
+      </button>
+      ${thumbs}
+    </div>
+    <div>
+      <p class="p-kind">${L(line.kind)}</p>
+      <h2 class="h-l">${L(line.name)}</h2>
+      <p class="lead">${L(line.desc)}</p>
+      <dl class="specs">${specs}</dl>
+      <div class="config">${config}</div>
+      <div class="add-row">
+        <button class="btn btn-ink" data-add="${line.id}">${t("add")}</button>
+        <span class="hint" data-hint="${line.id}"></span>
+      </div>
+    </div>
+  </div></div></section>`;
+}
+
+function boardSVG(){
+  const W = 520, C = W/2, scale = 5.8; // px por cm
+  const sizes = [60,70,77,80];
+  const round = state.sizeShape === "round";
+  const ghosts = sizes.map(n=>{
+    const s = n*scale;
+    return round ? `<circle class="ghost" cx="${C}" cy="${C}" r="${s/2}"/>`
+                 : `<rect class="ghost" x="${C-s/2}" y="${C-s/2}" width="${s}" height="${s}"/>`;
+  }).join("");
+  const labels = sizes.map((n,k)=>{
+    const r = n*scale/2;
+    if(round){
+      const a = [-150,-30,-120,-60][k]*Math.PI/180;
+      return `<text class="lbl" x="${C + (r+14)*Math.cos(a)}" y="${C + (r+14)*Math.sin(a) + 4}" text-anchor="middle">Ø${n}</text>`;
+    }
+    const left = k%2===0;
+    return `<text class="lbl" x="${left ? C-r-6 : C+r+6}" y="${C-r+4}" text-anchor="${left?"end":"start"}">${n}</text>`;
+  }).join("");
+  const s = state.sizeVal*scale;
+  const sel = round ? `<circle class="sel" cx="${C}" cy="${C}" r="${s/2}"/>`
+                    : `<rect class="sel" x="${C-s/2}" y="${C-s/2}" width="${s}" height="${s}" rx="2"/>`;
+  let grid = "";
+  for(let x=0;x<=W;x+=58){ grid += `<line x1="${x}" y1="0" x2="${x}" y2="${W}"/><line x1="0" y1="${x}" x2="${W}" y2="${x}"/>`; }
+  return `<svg viewBox="-40 -30 ${W+80} ${W+60}" role="img" aria-label="${fmtSize((round?"R":"")+state.sizeVal+(round?"":"x"+state.sizeVal))}">
+    <g class="grid">${grid}</g>
+    ${ghosts}${sel}
+    <line class="dimline" x1="${C-s/2}" y1="${C}" x2="${C+s/2}" y2="${C}"/>
+    <text class="dim" x="${C}" y="${C-10}" text-anchor="middle">${state.sizeVal} cm</text>
+    ${labels}
+  </svg>`;
+}
+
+function availableLines(){
+  const code = state.sizeShape === "round" ? "R"+state.sizeVal : state.sizeVal+"x"+state.sizeVal;
+  return LINES.map((l,i)=>({l,i})).filter(({l})=> l.allSizes || l.sizes.includes(code));
+}
+
+function sizesPanel(){
+  const round = state.sizeShape === "round";
+  const cm = state.sizeVal;
+  const area = round ? Math.PI*Math.pow(cm/200,2) : Math.pow(cm/100,2);
+  const avail = availableLines().map(({l,i})=>`<li><a href="#${PRODUCT_START+i+1}" data-go="${PRODUCT_START+i}">${L(l.name)}</a></li>`).join("");
+  return `
+    <div class="readout">
+      <div class="big">${round?"Ø":""}${cm}${round?"":"×"+cm}</div>
+      <div class="small">${area.toFixed(2).replace(".", lang==="es"?",":".")} m² ${t("surface")}</div>
+    </div>
+    <div class="avail"><div class="config-label">${t("availIn")}</div><ul>${avail}</ul></div>`;
+}
+
+function slideSizes(){
+  const round = state.sizeShape === "round";
+  return `<section class="slide"><div class="inner"><div class="sizes">
+    <div>
+      <h2 class="h-l">${t("sizesTitle")}</h2>
+      <p class="lead">${t("sizesLead")}</p>
+      <div class="ctrl"><div class="config-label">${t("shape")}</div><div class="chips">
+        <button class="chip" data-shape="round" aria-pressed="${round}">${t("round")}</button>
+        <button class="chip" data-shape="square" aria-pressed="${!round}">${t("square")}</button>
+      </div></div>
+      <div class="ctrl"><div class="config-label">${t("size")}</div><div class="chips">
+        ${[60,70,77,80].map(n=>`<button class="chip" data-sval="${n}" aria-pressed="${state.sizeVal===n}">${n} cm</button>`).join("")}
+      </div></div>
+      <div id="sizesPanel">${sizesPanel()}</div>
+    </div>
+    <div class="board" id="board">${boardSVG()}</div>
+  </div></div></section>`;
+}
+
+function slideProcess(){
+  const strip = [3,4,6,12,5].map((n,k)=>{
+    const lineIdx = LINES.findIndex(l=>l.img.includes(n));
+    return `<button data-go="${PRODUCT_START+lineIdx}" aria-label="${L(LINES[lineIdx].name)}"><img src="${IMG[n]}" alt=""></button>`;
+  }).join("");
+  return `<section class="slide"><div class="inner process">
+    <h2 class="h-l">${t("processTitle")}</h2>
+    <ol class="steps">
+      <li><h3>${t("s1t")}</h3><p>${t("s1d")}</p></li>
+      <li><h3>${t("s2t")}</h3><p>${t("s2d")}</p></li>
+      <li><h3>${t("s3t")}</h3><p>${t("s3d")}</p></li>
+      <li><h3>${t("s4t")}</h3><p>${t("s4d")}</p></li>
+    </ol>
+    <div class="strip">${strip}</div>
+  </div></section>`;
+}
+
+function cartHTML(){
+  if(!state.cart.length){
+    return `<div class="empty">${t("emptyCart")}<br><button class="btn btn-line" data-go="2">${t("goCollection")}</button></div>`;
+  }
+  return state.cart.map((it,idx)=>{
+    const line = LINES.find(l=>l.id===it.id);
+    return `<div class="item">
+      <img src="${IMG[line.img[0]]}" alt="">
+      <div><div class="iname">${L(line.name)}</div><div class="isize">${esc(it.label)}</div></div>
+      <div class="qty" aria-label="${t("units")}">
+        <button data-qty="${idx}" data-d="-1" aria-label="−">−</button>
+        <input type="number" min="1" value="${it.qty}" data-qtyin="${idx}" aria-label="${t("units")}">
+        <button data-qty="${idx}" data-d="1" aria-label="+">+</button>
+      </div>
+      <button class="remove" data-rm="${idx}" aria-label="${t("remove")}">${icon.x}</button>
+    </div>`;
+  }).join("");
+}
+
+function slideQuote(){
+  const rows = [["where",CONFIG.address],["phone",CONFIG.phone],["email",CONFIG.email],["web",CONFIG.web]]
+    .filter(r=>r[1]).map(([k,v])=>`<li><span>${t(k)}</span><span>${esc(v)}</span></li>`).join("");
+  return `<section class="slide"><div class="inner"><div class="quote">
+    <div>
+      <h2 class="h-l">${t("quoteTitle")}</h2>
+      <p class="lead">${t("quoteLead")}</p>
+      <div class="cart" id="cart">${cartHTML()}</div>
+      <div class="form">
+        <label for="qName">${t("nameLbl")}</label>
+        <input id="qName" placeholder="${t("namePh")}" value="${esc(state.name)}">
+        <label for="qNotes">${t("notesLbl")}</label>
+        <textarea id="qNotes" placeholder="${t("notesPh")}">${esc(state.notes)}</textarea>
+        <div class="q-actions">
+          <button class="btn btn-brass" id="sendBtn">${t("send")}</button>
+          <button class="btn btn-line" id="copyBtn">${t("copy")}</button>
+        </div>
+      </div>
+    </div>
+    <aside class="contact-card">
+      <h3>${t("contactTitle")}</h3>
+      <p>${t("contactLead")}</p>
+      <ul class="contact-list">${rows}</ul>
+      <svg class="seal" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" fill="none" stroke="var(--brass)" stroke-width="1"/><circle cx="50" cy="50" r="34" fill="none" stroke="var(--brass)" stroke-width=".6"/><circle cx="50" cy="50" r="18" fill="var(--brass-soft)"/></svg>
+    </aside>
+  </div></div></section>`;
+}
+
+const deck = document.getElementById("deck");
+function renderAll(){
+  deck.innerHTML = slideCover() + slideIntro() + slideIndex() +
+    LINES.map(slideProduct).join("") + slideSizes() + slideProcess() + slideQuote();
+  document.querySelectorAll("[data-t]").forEach(el=>el.textContent = t(el.dataset.t));
+  document.documentElement.lang = lang;
+  renderMenu();
+  go(current, true);
+}
+const slides = () => [...deck.children];
+
+/* ---------- Navegación ---------- */
+function go(n, instant){
+  const all = slides();
+  n = Math.max(0, Math.min(all.length-1, n));
+  all.forEach((s,i)=>{
+    if(instant) s.style.transition = "none";
+    s.classList.toggle("active", i===n);
+    s.classList.toggle("before", i<n);
+    s.setAttribute("aria-hidden", i!==n);
+    if(i===n) s.removeAttribute("inert"); else s.setAttribute("inert","");
+  });
+  if(instant) requestAnimationFrame(()=>all.forEach(s=>s.style.transition=""));
+  current = n;
+  document.body.classList.toggle("on-dark", !!all[n].dataset.dark);
+  document.body.classList.toggle("alu-bg", all[n].classList.contains("alu"));
+  document.getElementById("counter").textContent = `${n+1} / ${all.length}`;
+  document.getElementById("progress").style.width = ((n+1)/all.length*100) + "%";
+  document.getElementById("prev").disabled = n===0;
+  document.getElementById("next").disabled = n===all.length-1;
+  all[n].scrollTop = 0;
+  history.replaceState(null,"","#"+(n+1));
+  document.querySelectorAll("#menuList button").forEach((b,i)=>b.setAttribute("aria-current", i===n));
+}
+document.getElementById("prev").onclick = ()=>go(current-1);
+document.getElementById("next").onclick = ()=>go(current+1);
+
+function renderMenu(){
+  document.getElementById("menuList").innerHTML = T[lang].slides.map((s,i)=>
+    `<li><button data-menugo="${i}" aria-current="${i===current}">${s}</button></li>`).join("");
+}
+
+/* ---------- Interacciones ---------- */
+function toast(msg){
+  const el = document.getElementById("toast");
+  el.textContent = msg; el.classList.add("show");
+  clearTimeout(toast._t); toast._t = setTimeout(()=>el.classList.remove("show"), 2000);
+}
+function updateBadge(){
+  const b = document.getElementById("badge");
+  b.textContent = state.cart.reduce((a,c)=>a+c.qty,0);
+  b.classList.remove("bump"); void b.offsetWidth; b.classList.add("bump");
+}
+function refreshCart(){ const c = document.getElementById("cart"); if(c) c.innerHTML = cartHTML(); updateBadge(); }
+
+document.addEventListener("click", e=>{
+  const el = e.target.closest("button, a");
+  if(!el) return;
+  const d = el.dataset;
+
+  if(d.go !== undefined){ e.preventDefault(); closeOverlays(); go(+d.go); return; }
+  if(d.menugo !== undefined){ closeOverlays(); go(+d.menugo); return; }
+  if(d.lang){ if(d.lang!==lang){ lang = d.lang; document.querySelectorAll("[data-lang]").forEach(b=>b.setAttribute("aria-pressed", b.dataset.lang===lang)); renderAll(); } return; }
+  if(d.close !== undefined){ closeOverlays(); return; }
+
+  if(d.thumb){
+    const line = LINES.find(l=>l.id===d.thumb);
+    const img = document.querySelector(`[data-stage="${d.thumb}"]`);
+    img.src = IMG[line.img[+d.k]];
+    img.closest(".stage").dataset.k = d.k;
+    el.parentElement.querySelectorAll(".thumb").forEach(b=>b.setAttribute("aria-current", b===el));
+    return;
+  }
+  if(d.open){ openLightbox(d.open, +d.k); return; }
+
+  if(d.size){
+    const ch = state.choice[d.size] ||= {};
+    ch.size = d.v;
+    el.parentElement.querySelectorAll(".chip").forEach(b=>b.setAttribute("aria-pressed", b===el));
+    const mini = el.closest(".config").querySelector(".mini");
+    if(mini) mini.outerHTML = miniSVG(d.v);
+    document.querySelector(`[data-hint="${d.size}"]`).textContent = "";
+    return;
+  }
+  if(d.thick){
+    const ch = state.choice[d.thick] ||= {};
+    ch.thick = d.v;
+    el.parentElement.querySelectorAll(".chip").forEach(b=>b.setAttribute("aria-pressed", b===el));
+    document.querySelector(`[data-hint="${d.thick}"]`).textContent = "";
+    return;
+  }
+  if(d.add){
+    const line = LINES.find(l=>l.id===d.add);
+    const ch = state.choice[line.id] || {};
+    const hint = document.querySelector(`[data-hint="${line.id}"]`);
+    if(line.sizes.length && !ch.size){ hint.textContent = t("needSize"); return; }
+    if(line.thickness && !ch.thick){ hint.textContent = t("needThick"); return; }
+    const parts = [];
+    if(ch.size) parts.push(fmtSize(ch.size) + " cm");
+    if(ch.thick) parts.push(ch.thick);
+    if(ch.free) parts.push(ch.free);
+    const label = parts.join(", ") || t("sizesTbd");
+    const found = state.cart.find(c=>c.id===line.id && c.label===label);
+    if(found) found.qty++; else state.cart.push({id:line.id, label, qty:1});
+    refreshCart(); toast(t("added"));
+    return;
+  }
+
+  if(d.shape){ state.sizeShape = d.shape; updateSizes(); return; }
+  if(d.sval){ state.sizeVal = +d.sval; updateSizes(); return; }
+
+  if(d.qty !== undefined){ const it = state.cart[+d.qty]; it.qty = Math.max(1, it.qty + (+d.d)); refreshCart(); return; }
+  if(d.rm !== undefined){ state.cart.splice(+d.rm,1); refreshCart(); return; }
+
+  if(el.id==="sendBtn"){ window.location.href = `mailto:${CONFIG.email}?subject=${encodeURIComponent(t("mailSubject"))}&body=${encodeURIComponent(requestText())}`; return; }
+  if(el.id==="copyBtn"){
+    const txt = requestText();
+    (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(()=>toast(t("copied"))).catch(()=>{
+      const ta = document.createElement("textarea"); ta.value = txt; document.body.appendChild(ta); ta.select();
+      try{ document.execCommand("copy"); toast(t("copied")); }catch(_){} ta.remove();
+    });
+    return;
+  }
+  if(el.id==="cartBtn"){ closeOverlays(); go(slides().length-1); return; }
+  if(el.id==="menuBtn"){ openOverlay("menu"); return; }
+  if(el.id==="fsBtn"){ toggleFs(); return; }
+  if(el.id==="lbPrev"){ stepLightbox(-1); return; }
+  if(el.id==="lbNext"){ stepLightbox(1); return; }
+});
+
+function updateSizes(){
+  const sec = document.getElementById("board").closest(".slide");
+  sec.querySelectorAll("[data-shape]").forEach(b=>b.setAttribute("aria-pressed", b.dataset.shape===state.sizeShape));
+  sec.querySelectorAll("[data-sval]").forEach(b=>b.setAttribute("aria-pressed", +b.dataset.sval===state.sizeVal));
+  document.getElementById("board").innerHTML = boardSVG();
+  document.getElementById("sizesPanel").innerHTML = sizesPanel();
+}
+
+document.addEventListener("input", e=>{
+  const d = e.target.dataset;
+  if(d.free){ (state.choice[d.free] ||= {}).free = e.target.value.trim(); }
+  if(d.qtyin !== undefined){ const v = parseInt(e.target.value,10); if(v>0){ state.cart[+d.qtyin].qty = v; updateBadge(); } }
+  if(e.target.id==="qName") state.name = e.target.value;
+  if(e.target.id==="qNotes") state.notes = e.target.value;
+});
+
+/* Vista previa en el índice */
+document.addEventListener("pointerover", e=>{
+  const r = e.target.closest("[data-prev]"); if(r) setPreview(+r.dataset.prev);
+});
+document.addEventListener("focusin", e=>{
+  const r = e.target.closest("[data-prev]"); if(r) setPreview(+r.dataset.prev);
+});
+function setPreview(i){
+  document.querySelectorAll("[data-prev]").forEach(b=>b.classList.toggle("on", +b.dataset.prev===i));
+  document.querySelectorAll("[data-pimg]").forEach(img=>img.classList.toggle("on", +img.dataset.pimg===i));
+}
+
+function requestText(){
+  const lines = state.cart.map(c=>`- ${L(LINES.find(l=>l.id===c.id).name)} (${c.label}) x ${c.qty}`);
+  return [t("mailIntro"), "", ...(lines.length?lines:["-"]), "", state.name ? `${t("nameLbl")}: ${state.name}` : "", state.notes ? `${t("notesLbl")}: ${state.notes}` : ""].filter((x,i,a)=>x!=="" || a[i-1]!=="").join("\n");
+}
+
+/* ---------- Lightbox ---------- */
+let lb = {id:null,k:0};
+function openOverlay(id){ document.getElementById(id).classList.add("open"); document.getElementById(id).querySelector("[data-close]").focus(); }
+function closeOverlays(){ document.querySelectorAll(".overlay.open").forEach(o=>o.classList.remove("open")); }
+function openLightbox(id,k){ lb = {id,k}; drawLightbox(); openOverlay("lightbox"); }
+function drawLightbox(){
+  const line = LINES.find(l=>l.id===lb.id);
+  const img = document.getElementById("lbImg");
+  img.src = IMG[line.img[lb.k]]; img.alt = L(line.name);
+  document.getElementById("lbCount").textContent = `${L(line.name)}  ${lb.k+1} / ${line.img.length}`;
+  const multi = line.img.length>1;
+  document.getElementById("lbPrev").style.display = multi ? "" : "none";
+  document.getElementById("lbNext").style.display = multi ? "" : "none";
+}
+function stepLightbox(dir){
+  const n = LINES.find(l=>l.id===lb.id).img.length;
+  lb.k = (lb.k + dir + n) % n; drawLightbox();
+}
+document.querySelectorAll(".overlay").forEach(o=>o.addEventListener("click", e=>{ if(e.target===o || e.target.classList.contains("lb-img")) closeOverlays(); }));
+
+/* ---------- Teclado, gestos, pantalla completa ---------- */
+function toggleFs(){
+  if(!document.fullscreenElement) document.documentElement.requestFullscreen?.().catch(()=>{});
+  else document.exitFullscreen?.();
+}
+document.addEventListener("keydown", e=>{
+  if(e.target.matches("input, textarea")) return;
+  const lbOpen = document.getElementById("lightbox").classList.contains("open");
+  const anyOpen = document.querySelector(".overlay.open");
+  if(e.key==="Escape"){ closeOverlays(); return; }
+  if(lbOpen){ if(e.key==="ArrowRight") stepLightbox(1); if(e.key==="ArrowLeft") stepLightbox(-1); return; }
+  if(anyOpen) return;
+  if(["ArrowRight","PageDown"].includes(e.key) || (e.key===" " && !e.target.closest("button"))){ e.preventDefault(); go(current+1); }
+  else if(["ArrowLeft","PageUp"].includes(e.key)){ e.preventDefault(); go(current-1); }
+  else if(e.key==="Home") go(0);
+  else if(e.key==="End") go(slides().length-1);
+  else if(e.key.toLowerCase()==="f") toggleFs();
+});
+let tx=0, ty=0;
+deck.addEventListener("touchstart", e=>{ tx=e.touches[0].clientX; ty=e.touches[0].clientY; }, {passive:true});
+deck.addEventListener("touchend", e=>{
+  if(e.target.closest("input, textarea")) return;
+  const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
+  if(Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)*1.5) go(current + (dx<0 ? 1 : -1));
+}, {passive:true});
+
+/* ---------- Inicio ---------- */
+const startHash = parseInt(location.hash.slice(1),10);
+if(startHash>0) current = startHash-1;
+renderAll();
+</script>
+</body>
+</html>
