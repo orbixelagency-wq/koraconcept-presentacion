@@ -100,7 +100,9 @@ h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.025em;line-
 .cover h1{max-width:12ch}
 .cover .lead{margin-top:28px}
 .cover .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:40px}
-.place{margin-top:48px;font-size:14px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.place{margin-top:30px;font-size:14px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.legal{margin-top:12px;max-width:56ch;font-size:13px;line-height:1.5;color:var(--muted);border-left:2px solid var(--brass);padding-left:12px}
+.legal b{color:var(--ink);font-weight:600}
 .place svg{width:16px;height:16px}
 .disc-wrap{position:relative;aspect-ratio:1;width:min(100%,62vh);justify-self:center}
 .disc{position:absolute;inset:6%;border-radius:50%;overflow:hidden;box-shadow:0 30px 60px -28px rgba(22,32,29,.42)}
@@ -279,9 +281,10 @@ h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.025em;line-
   .cover,.intro,.index,.product,.sizes,.quote{grid-template-columns:1fr}
   .inner{justify-content:flex-start}
   .slide{padding-top:80px;padding-bottom:100px}
-  .disc-wrap{width:min(78vw,380px);order:-1}
+  .disc-wrap{width:min(62vw,300px);order:-1}
   .cover h1{max-width:none}
-  .place{margin-top:28px}
+  .place{margin-top:16px}
+  .legal{margin-top:10px;font-size:12.5px}
   .intro-photo{aspect-ratio:4/3}
   .pillars{grid-template-columns:1fr;gap:18px}
   .preview{display:none}
@@ -466,6 +469,7 @@ const LINES = [
 const T = {
   es:{
     a11yMenu:"Índice", a11yFs:"Pantalla completa", a11yPrev:"Anterior", a11yNext:"Siguiente", a11yClose:"Cerrar", a11yImage:"Imagen",
+    legalTitle:"Importante", legal:"Todos los logotipos son propiedad de nuestros clientes y no tenemos derecho a venderlos a terceros sin los permisos pertinentes.",
     mySelection:"Mi selección", help:"Usa las flechas del teclado o desliza para avanzar. F activa la pantalla completa.",
     coverTitle:"Tableros con la imagen de tu marca", coverLead:"Tableros de exterior, HPL y bistro para hostelería y marcas de bebidas. Redondos o cuadrados, de 60 a 80 cm, y otras medidas bajo demanda.",
     seeCollection:"Ver la colección", compareSizes:"Comparar medidas", ringText:"KORACONCEPT MOBILIARIO  ◦  TABLEROS PARA HOSTELERÍA  ◦  ",
@@ -497,6 +501,7 @@ const T = {
   },
   en:{
     a11yMenu:"Contents", a11yFs:"Full screen", a11yPrev:"Previous", a11yNext:"Next", a11yClose:"Close", a11yImage:"Image",
+    legalTitle:"Important", legal:"All logos are the property of our clients and we have no right to sell them to third parties without the relevant permissions.",
     mySelection:"My selection", help:"Use the arrow keys or swipe to move. Press F for full screen.",
     coverTitle:"Table tops that carry your brand", coverLead:"Outdoor, HPL and bistro table tops for hospitality venues and drinks brands. Round or square, from 60 to 80 cm, with other sizes on request.",
     seeCollection:"See the collection", compareSizes:"Compare sizes", ringText:"KORACONCEPT MOBILIARIO  ◦  TABLE TOPS FOR HOSPITALITY  ◦  ",
@@ -571,6 +576,7 @@ function slideCover(){
         <button class="btn btn-line" data-go="7">${t("compareSizes")}</button>
       </div>
       <p class="place">${icon.pin}${esc(CONFIG.address)}</p>
+      <p class="legal"><b>${t("legalTitle")}:</b> ${t("legal")}</p>
     </div>
     <div class="disc-wrap" aria-hidden="true">
       <div class="disc"><img src="${IMG["taller-salitos"]}" alt=""></div>
