@@ -43,7 +43,7 @@ img{display:block;max-width:100%}
 .topbar > *{pointer-events:auto}
 body.on-dark .topbar{color:var(--paper)}
 .wordmark{font-family:var(--display);font-weight:600;font-size:20px;letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
-.wordmark svg{width:22px;height:22px}
+.wordmark .mark{width:38px;height:auto;display:block}
 .tools{display:flex;align-items:center;gap:6px}
 .tool{height:38px;min-width:38px;padding:0 12px;border-radius:19px;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:14px;font-weight:500;transition:background-color .2s ease,transform .12s ease}
 .tool:hover{background:rgba(22,32,29,.07)}
@@ -334,7 +334,8 @@ h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.025em;line-
   .tool{min-width:34px;padding:0 8px}
   .lang{margin-right:4px}
   .lang button{padding:0 8px}
-  .wordmark{font-size:17px}
+  .wordmark{font-size:17px;gap:8px}
+  .wordmark .mark{width:32px}
   .tool .tlabel{display:none}
   .topbar{padding-top:12px;padding-bottom:12px;background:rgba(255,255,255,.93);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
   body.on-dark .topbar{background:rgba(30,59,52,.9)}
@@ -376,7 +377,7 @@ h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.025em;line-
 
 <header class="topbar">
   <div class="wordmark" aria-label="Koraconcept">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="6.2" fill="var(--brass)"/></svg>
+    <img class="mark" src="assets/koraconcept-flechas.png" alt="" width="534" height="318">
     Koraconcept
   </div>
   <div class="tools">
@@ -629,7 +630,7 @@ function slideCover(){
     </div>
     <footer class="cover-meta">
       <address class="contact">
-        <span class="who">${esc(CONFIG.person)}</span>
+        <span class="who">${esc(CONFIG.company)}</span>
         <span>${esc(CONFIG.address)}</span>
         <a href="${tel(CONFIG.phone)}">${esc(CONFIG.phone)}</a>
         <a href="${tel(CONFIG.mobile)}">${esc(CONFIG.mobile)}</a>
