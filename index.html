@@ -120,7 +120,7 @@ h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.025em;line-
 
 /* ---------- Intro ---------- */
 .intro{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(28px,5vw,88px);align-items:center}
-.intro-photo{border-radius:6px;overflow:hidden;aspect-ratio:4/3.4;position:relative}
+.intro-photo{border-radius:6px;overflow:hidden;aspect-ratio:4/3;position:relative}
 .intro-photo img{width:100%;height:100%;object-fit:cover}
 .intro-photo figcaption{position:absolute;left:14px;bottom:14px;background:rgba(255,255,255,.93);padding:6px 12px;border-radius:14px;font-size:13px}
 .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:52px;border-top:1px solid var(--line);padding-top:28px}
@@ -139,21 +139,21 @@ h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.025em;line-
 .row:hover,.row.on{padding-left:14px}
 .row:hover svg,.row.on svg{opacity:1;transform:none}
 .row.on .rn{color:var(--green)}
-.preview{position:relative;aspect-ratio:4/5;border-radius:6px;overflow:hidden;background:#F1F2EF}
-.preview img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.03);transition:opacity .45s ease,transform .8s var(--ease-out)}
+.preview{position:relative;aspect-ratio:4/5;border-radius:6px;overflow:hidden;background:#FFFFFF;border:1px solid var(--line)}
+.preview img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:18px;opacity:0;transform:scale(1.03);transition:opacity .45s ease,transform .8s var(--ease-out)}
 .preview img.on{opacity:1;transform:none}
 
 /* ---------- Product ---------- */
 .product{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(28px,4.5vw,80px);align-items:center}
 .gallery{display:grid;grid-template-rows:1fr auto;gap:12px;height:min(72vh,720px)}
-.stage{position:relative;border-radius:6px;overflow:hidden;background:#F1F2EF;cursor:zoom-in}
-.stage img{width:100%;height:100%;object-fit:cover;transition:opacity .3s ease}
+.stage{position:relative;border-radius:6px;overflow:hidden;background:#FFFFFF;border:1px solid var(--line);cursor:zoom-in}
+.stage img{width:100%;height:100%;object-fit:contain;padding:14px;transition:opacity .3s ease}
 .stage .zoom{position:absolute;right:12px;bottom:12px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.94);display:grid;place-items:center;transition:transform .15s ease}
 .stage:hover .zoom{transform:scale(1.06)}
 .stage .zoom svg{width:18px;height:18px}
 .thumbs{display:flex;flex-wrap:wrap;gap:10px}
-.thumb{width:76px;height:76px;border-radius:4px;overflow:hidden;opacity:.55;outline:2px solid transparent;outline-offset:2px;transition:opacity .2s,outline-color .2s}
-.thumb img{width:100%;height:100%;object-fit:cover}
+.thumb{width:76px;height:76px;border-radius:4px;overflow:hidden;background:#FFFFFF;border:1px solid var(--line);opacity:.55;outline:2px solid transparent;outline-offset:2px;transition:opacity .2s,outline-color .2s}
+.thumb img{width:100%;height:100%;object-fit:contain;padding:4px}
 .thumb:hover{opacity:.85}
 .thumb[aria-current="true"]{opacity:1;outline-color:var(--brass)}
 .p-kind{font-size:14px;color:var(--muted);margin-bottom:14px}
@@ -218,7 +218,7 @@ h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.025em;line-
 .quote h2{margin-bottom:14px}
 .cart{margin-top:30px;border-top:1px solid var(--line)}
 .item{display:grid;grid-template-columns:56px 1fr auto auto;gap:16px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
-.item img{width:56px;height:56px;border-radius:50%;object-fit:cover}
+.item img{width:56px;height:56px;border-radius:6px;background:#FFFFFF;border:1px solid var(--line);object-fit:contain;padding:3px}
 .item .iname{font-weight:600}
 .item .isize{font-size:14px;color:var(--muted)}
 .qty{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:19px;height:38px}
@@ -282,11 +282,11 @@ h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.025em;line-
   .disc-wrap{width:min(78vw,380px);order:-1}
   .cover h1{max-width:none}
   .place{margin-top:28px}
-  .intro-photo{aspect-ratio:16/10}
+  .intro-photo{aspect-ratio:4/3}
   .pillars{grid-template-columns:1fr;gap:18px}
   .preview{display:none}
   .gallery{height:auto;grid-template-rows:auto auto}
-  .stage{aspect-ratio:4/3.6}
+  .stage{aspect-ratio:4/4.2}
   .steps{grid-template-columns:1fr 1fr;row-gap:28px}
   .steps li:nth-child(3){padding-left:0;border-left:0}
   .strip{grid-template-columns:repeat(5,1fr)}
@@ -578,7 +578,7 @@ function slideCover(){
       <p class="place">${icon.pin}${esc(CONFIG.address)}</p>
     </div>
     <div class="disc-wrap" aria-hidden="true">
-      <div class="disc"><img src="${IMG["stammtisch"]}" alt=""></div>
+      <div class="disc"><img src="${IMG["taller-salitos"]}" alt=""></div>
       <svg class="disc-ring" viewBox="0 0 100 100">
         <defs><path id="ringPath" d="M50,50 m-48,0 a48,48 0 1,1 96,0 a48,48 0 1,1 -96,0"/></defs>
         <circle class="draw" cx="50" cy="50" r="45"/>
