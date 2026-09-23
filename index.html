@@ -190,27 +190,42 @@ h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.025em;line-
 .add-row{margin-top:24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
 .hint{font-size:14px;color:#8a5a1c;min-height:21px}
 
-/* ---------- Sizes ---------- */
-.sizes{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(28px,5vw,88px);align-items:center}
-.sizes .lead{margin-top:20px}
-.ctrl{margin-top:34px}
-.ctrl + .ctrl{margin-top:22px}
+/* ---------- Estudio: diseña tu tablero ---------- */
+.studio{display:grid;grid-template-columns:.95fr 1.05fr;gap:clamp(18px,2.6vw,34px) clamp(26px,4.5vw,72px);align-items:start}
+.studio-side{display:flex;flex-direction:column;justify-content:center}
+.studio-main{display:flex;flex-direction:column;align-items:center;gap:10px}
+.studio-controls{margin-top:clamp(16px,2vw,26px)}
+.studio .lead{margin-top:14px;font-size:clamp(15px,1.15vw,17px)}
+.studio h2{max-width:14ch}
+.ctrl{margin-top:20px}
+.ctrl-primero{margin-top:0}
+.ctrl + .ctrl{margin-top:16px}
+.ctrl-par{display:grid;grid-template-columns:auto 1fr;gap:16px 28px;align-items:start}
+.chip[disabled]{opacity:.38;cursor:not-allowed}
+.swatches{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.swatch{width:36px;height:36px;border-radius:50%;padding:3px;border:1px solid var(--line);background:#fff;transition:border-color .2s var(--ease-out),transform .2s var(--ease-out)}
+.swatch span{display:block;width:100%;height:100%;border-radius:50%;background-size:cover;background-position:center}
+.swatch:hover{border-color:var(--ink)}
+.swatch[aria-pressed="true"]{border-color:var(--brass-deep);transform:scale(1.08)}
+.finish-name{margin-top:10px}
 
-.readout{margin-top:36px;padding-top:24px;border-top:1px solid var(--line);display:grid;grid-template-columns:auto 1fr;gap:10px 28px;align-items:baseline}
-.readout .big{font-family:var(--display);font-size:clamp(40px,4.5vw,64px);font-weight:600;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1}
-.readout .small{font-size:15px;color:var(--muted)}
-.avail{margin-top:24px}
-.avail ul{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-.avail a{display:inline-flex;height:34px;align-items:center;padding:0 14px;border-radius:17px;border:1px solid var(--line);color:var(--ink);text-decoration:none;font-size:14px;transition:background-color .2s,border-color .2s}
-.avail a:hover{background:rgba(22,32,29,.05);border-color:var(--ink)}
-.board{width:100%;max-width:620px;justify-self:center}
-.board svg{width:100%;height:auto;overflow:visible}
-.board .grid line{stroke:rgba(22,32,29,.05);stroke-width:1}
-.board .ghost{fill:none;stroke:rgba(22,32,29,.22);stroke-width:1;stroke-dasharray:3 5;transition:opacity .3s}
-.board .sel{fill:rgba(184,145,75,.16);stroke:var(--brass);stroke-width:2.5;transition:all .5s var(--ease-out)}
-.board .lbl{fill:var(--muted);font-size:12px;font-family:var(--body)}
-.board .dim{fill:var(--ink);font-size:15px;font-weight:600;font-family:var(--body)}
-.board .dimline{stroke:var(--ink);stroke-width:1;transition:all .5s var(--ease-out)}
+.studio-stage{display:grid;gap:10px;justify-items:center}
+.mockup{width:100%;max-width:min(420px,42vh);aspect-ratio:1;touch-action:none;cursor:grab;border-radius:10px}
+.mockup.dragging{cursor:grabbing}
+.stage-note{font-size:13px;line-height:1.45;color:var(--muted);text-align:center;max-width:46ch;min-height:2.2em}
+.logo-tools{width:100%;max-width:min(460px,48vh);display:grid;gap:10px;padding-top:12px;border-top:1px solid var(--line)}
+.logo-row{display:flex;flex-wrap:wrap;gap:8px}
+.sliders{display:grid;grid-template-columns:1fr 1fr;gap:10px 18px}
+.slider{display:grid;gap:4px}
+.slider .config-label{margin:0}
+.slider input[type=range]{width:100%;accent-color:var(--brass-deep);background:transparent}
+.slider input[type=range]:focus-visible{outline:2px solid var(--brass);outline-offset:3px}
+.file-field{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.btn-mini{height:38px;padding:0 16px;border-radius:19px;border:1px solid var(--line);background:#fff;color:var(--ink);font-size:14px;font-weight:500;display:inline-flex;align-items:center;gap:8px;cursor:pointer;transition:background-color .2s,border-color .2s}
+.btn-mini:hover{background:rgba(22,32,29,.05);border-color:var(--ink)}
+.btn-mini svg{width:16px;height:16px}
+.file-field:focus-visible + .btn-mini{outline:2px solid var(--brass);outline-offset:3px}
+.studio-err{color:#8C2F23;font-size:13px}
 
 /* ---------- Process ---------- */
 .process h2{max-width:18ch}
@@ -295,6 +310,10 @@ h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.025em;line-
   .cover .actions{margin-top:26px}
   .cover-meta{margin-top:16px}
   .disc-wrap{width:min(100%,44vh)}
+  .studio h2{font-size:clamp(30px,3vw,42px)}
+  .mockup{max-width:min(380px,37vh)}
+  .ctrl{margin-top:16px}
+  .ctrl + .ctrl{margin-top:12px}
 }
 @media (min-width: 961px) and (max-height: 780px){
   .h-xl{font-size:clamp(36px,3.9vw,52px)}
@@ -305,9 +324,19 @@ h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.025em;line-
   .contact{font-size:13px;padding-top:12px}
   .legal{font-size:12.5px;margin-top:10px}
   .disc-wrap{width:min(100%,38vh)}
+  .studio h2{font-size:clamp(26px,2.5vw,34px)}
+  .studio .lead{font-size:14px;margin-top:10px}
+  .mockup{max-width:min(340px,33vh)}
+  .studio{gap:12px clamp(20px,3vw,44px)}
+  .ctrl{margin-top:12px}
+  .ctrl + .ctrl{margin-top:10px}
+  .studio-stage{gap:8px}
+  .logo-tools{gap:8px;padding-top:10px}
+  .stage-note{min-height:0}
+  .btn-mini{height:34px;padding:0 13px;font-size:13px}
 }
 @media (max-width: 960px){
-  .cover,.intro,.index,.product,.sizes,.quote{grid-template-columns:1fr}
+  .cover,.intro,.index,.product,.studio,.quote{grid-template-columns:1fr}
   .cover{gap:16px}
   .cover .lead{margin-top:18px}
   .cover .actions{margin-top:20px}
@@ -328,7 +357,13 @@ h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.025em;line-
   .steps{grid-template-columns:1fr 1fr;row-gap:28px}
   .steps li:nth-child(3){padding-left:0;border-left:0}
   .strip{grid-template-columns:repeat(5,1fr)}
-  .board{max-width:420px;order:-1}
+  .studio-side,.studio-main{display:contents}
+  .studio-intro{order:1}
+  .studio-stage{order:2}
+  .studio-controls{order:3}
+  .logo-tools{order:4}
+  .mockup{max-width:min(340px,42vh)}
+  .logo-tools{max-width:none}
   #fsBtn{display:none}
   .tools{gap:0}
   .tool{min-width:34px;padding:0 8px}
@@ -515,7 +550,7 @@ const T = {
     legalTitle:"Importante", legal:"Todos los logotipos son propiedad de nuestros clientes y no tenemos derecho a venderlos a terceros sin los permisos pertinentes.",
     mySelection:"Mi selección", help:"Usa las flechas del teclado o desliza para avanzar. F activa la pantalla completa.",
     coverTitle:"Tableros con la imagen de tu marca", coverLead:"Tableros de exterior, HPL y bistro para hostelería y marcas de bebidas. Redondos o cuadrados, de 60 a 80 cm, y otras medidas bajo demanda.",
-    seeCollection:"Ver la colección", compareSizes:"Comparar medidas", ringText:"KORACONCEPT MOBILIARIO  ◦  TABLEROS PARA HOSTELERÍA  ◦  ",
+    seeCollection:"Ver la colección", compareSizes:"Diseña tu tablero", ringText:"KORACONCEPT MOBILIARIO  ◦  TABLEROS PARA HOSTELERÍA  ◦  ",
     introTitle:"La mesa es el primer anuncio que ve tu cliente", introLead:"Suministramos tableros personalizados para bares, restaurantes, terrazas y marcas que quieren estar presentes en cada consumición.",
     p1t:"Tu marca en la mesa", p1d:"Logos e imágenes de marca integrados en la superficie del tablero.",
     p2t:"Pensados para la terraza", p2d:"Materiales para uso intensivo, exterior y humedad: Wermodin, HPL y aglomerado hidrófugo.",
@@ -526,8 +561,14 @@ const T = {
     chooseSize:"Elige medida", chooseThick:"Elige grosor", desiredSize:"Medida deseada", desiredPh:"p. ej. Ø70 o 70×120",
     onDemand:"Otras medidas bajo demanda.", add:"Añadir a mi selección", added:"Añadido a tu selección", needSize:"Elige una medida para añadirlo.", needThick:"Elige un grosor para añadirlo.",
     zoom:"Ampliar imagen",
-    sizesTitle:"Compara medidas a escala", sizesLead:"Todas las siluetas están dibujadas a la misma escala. Elige forma y medida para ver qué líneas la ofrecen.",
-    shape:"Forma", round:"Redonda", square:"Cuadrada", size:"Medida", surface:"de superficie", availIn:"Disponible en",
+    studioTitle:"Diseña tu tablero", studioLead:"Elige material, forma, medida y acabado, sube tu logo y colócalo. Todo se compone en tu navegador: el logo no sale de tu ordenador.",
+    shape:"Forma", round:"Redonda", square:"Cuadrada", size:"Medida", baseLbl:"Acabado", preview:"Tu tablero con tu logo",
+    logoBtn:"Subir mi logo", changeLogo:"Cambiar logo", removeLogo:"Quitar logo", center:"Centrar",
+    logoHint:"Sube tu logo en PNG con fondo transparente, SVG o JPG. Máximo 8 MB.",
+    dragHint:"Arrastra el logo sobre la mesa para colocarlo. Ajusta el tamaño y el giro abajo.",
+    logoErr:"No hemos podido abrir esa imagen. Prueba con un PNG o un JPG.", downErr:"Para descargar la imagen, abre la presentación desde su enlace web.", logoBig:"La imagen pesa más de 8 MB. Sube una más ligera.",
+    logoSize:"Tamaño del logo", logoRot:"Giro", download:"Descargar la imagen", withLogo:"con logo", noLogo:"sin logo",
+    attachHint:"Al enviar la solicitud, adjunta tu logo al correo o descarga la imagen y añádela.",
     processTitle:"Del logo a la terraza en cuatro pasos",
     s1t:"Nos cuentas el proyecto", s1d:"Local o marca, número de mesas y el logo o diseño que quieres aplicar.",
     s2t:"Te ayudamos a elegir", s2d:"Material, forma y medida según el uso: interior, terraza o campaña de marca.",
@@ -540,14 +581,14 @@ const T = {
     contactTitle:"Hablemos de tu proyecto", contactLead:"Koraconcept Mobiliario. Tableros y mobiliario para hostelería.",
     where:"Dónde", phone:"Teléfono", email:"Email", web:"Web",
     mailSubject:"Solicitud de presupuesto: tableros Koraconcept", mailIntro:"Hola, me gustaría recibir presupuesto de los siguientes tableros:",
-    slides:["Portada","Qué hacemos","La colección","Wermodin Outdoor con logo","Aglomerado hidrófugo","Tableros HPL","Wermodin Bistro","Comparar medidas","Cómo trabajamos","Presupuesto"]
+    slides:["Portada","Qué hacemos","La colección","Wermodin Outdoor con logo","Aglomerado hidrófugo","Tableros HPL","Wermodin Bistro","Diseña tu tablero","Cómo trabajamos","Presupuesto"]
   },
   en:{
     a11yMenu:"Contents", a11yFs:"Full screen", a11yPrev:"Previous", a11yNext:"Next", a11yClose:"Close", a11yImage:"Image",
     legalTitle:"Important", legal:"All logos are the property of our clients and we have no right to sell them to third parties without the relevant permissions.",
     mySelection:"My selection", help:"Use the arrow keys or swipe to move. Press F for full screen.",
     coverTitle:"Table tops that carry your brand", coverLead:"Outdoor, HPL and bistro table tops for hospitality venues and drinks brands. Round or square, from 60 to 80 cm, with other sizes on request.",
-    seeCollection:"See the collection", compareSizes:"Compare sizes", ringText:"KORACONCEPT MOBILIARIO  ◦  TABLE TOPS FOR HOSPITALITY  ◦  ",
+    seeCollection:"See the collection", compareSizes:"Design your top", ringText:"KORACONCEPT MOBILIARIO  ◦  TABLE TOPS FOR HOSPITALITY  ◦  ",
     introTitle:"The table is the first ad your customer sees", introLead:"We supply custom table tops for bars, restaurants, terraces and brands that want to be there with every order.",
     p1t:"Your brand on the table", p1d:"Logos and brand artwork built into the table top surface.",
     p2t:"Built for the terrace", p2d:"Materials for heavy use, outdoors and damp conditions: Wermodin, HPL and moisture-resistant chipboard.",
@@ -558,8 +599,14 @@ const T = {
     chooseSize:"Choose a size", chooseThick:"Choose thickness", desiredSize:"Size required", desiredPh:"e.g. Ø70 or 70×120",
     onDemand:"Other sizes on request.", add:"Add to my selection", added:"Added to your selection", needSize:"Choose a size to add it.", needThick:"Choose a thickness to add it.",
     zoom:"Enlarge image",
-    sizesTitle:"Compare sizes to scale", sizesLead:"Every outline is drawn at the same scale. Pick a shape and size to see which lines offer it.",
-    shape:"Shape", round:"Round", square:"Square", size:"Size", surface:"surface area", availIn:"Available in",
+    studioTitle:"Design your table top", studioLead:"Choose material, shape, size and finish, upload your logo and place it. Everything is composed in your browser: the logo never leaves your computer.",
+    shape:"Shape", round:"Round", square:"Square", size:"Size", baseLbl:"Finish", preview:"Your table top with your logo",
+    logoBtn:"Upload my logo", changeLogo:"Change logo", removeLogo:"Remove logo", center:"Centre",
+    logoHint:"Upload your logo as a transparent PNG, an SVG or a JPG. 8 MB maximum.",
+    dragHint:"Drag the logo across the top to place it. Adjust its size and rotation below.",
+    logoErr:"We could not open that image. Try a PNG or a JPG.", downErr:"To download the image, open the presentation from its web link.", logoBig:"That image is over 8 MB. Please upload a lighter one.",
+    logoSize:"Logo size", logoRot:"Rotation", download:"Download the image", withLogo:"with logo", noLogo:"no logo",
+    attachHint:"When you send the request, attach your logo to the email or download the image and add it.",
     processTitle:"From logo to terrace in four steps",
     s1t:"Tell us about the project", s1d:"Venue or brand, number of tables and the logo or artwork you want to use.",
     s2t:"We help you choose", s2d:"Material, shape and size to suit the use: indoors, terrace or brand campaign.",
@@ -572,7 +619,7 @@ const T = {
     contactTitle:"Let's talk about your project", contactLead:"Koraconcept Mobiliario. Table tops and furniture for hospitality.",
     where:"Where", phone:"Phone", email:"Email", web:"Web",
     mailSubject:"Quote request: Koraconcept table tops", mailIntro:"Hello, I would like a quote for the following table tops:",
-    slides:["Cover","What we do","The collection","Wermodin Outdoor with logo","Moisture-resistant chipboard","HPL tops","Wermodin Bistro","Compare sizes","How we work","Quote"]
+    slides:["Cover","What we do","The collection","Wermodin Outdoor with logo","Moisture-resistant chipboard","HPL tops","Wermodin Bistro","Design your top","How we work","Quote"]
   }
 };
 
@@ -586,7 +633,32 @@ function initialLang(){
 }
 let lang = initialLang();
 let current = 0;
-const state = { choice:{}, cart:[], sizeShape:"round", sizeVal:70, name:"", notes:"" };
+const state = { choice:{}, cart:[], name:"", notes:"" };
+
+/* ---------- Estudio: acabados y cantos ---------- */
+const FINISHES = [
+  { id:"blanco",   name:{es:"Blanco",en:"White"},                 color:"#F1F0EC" },
+  { id:"arena",    name:{es:"Arena",en:"Sand"},                   color:"#DCCBA6" },
+  { id:"negro",    name:{es:"Negro",en:"Black"},                  color:"#1B1D1C" },
+  { id:"oliva",    name:{es:"Verde oliva",en:"Olive green"},      color:"#49583F" },
+  { id:"burdeos",  name:{es:"Burdeos",en:"Burgundy"},             color:"#6B2331" },
+  { id:"marino",   name:{es:"Azul marino",en:"Navy blue"},        color:"#22354D" },
+  { id:"marmol-b", name:{es:"Efecto mármol blanco",en:"White marble effect"}, color:"#EDE9E3", img:"bistro-marmol-blanco", zoom:2.15 },
+  { id:"marmol-g", name:{es:"Efecto mármol gris",en:"Grey marble effect"},    color:"#6F706C", img:"bistro-marmol-gris", zoom:2.15 }
+];
+const EDGES = {
+  "wermodin-logo":   { kind:"tono",  name:{es:"Canto moldeado",en:"Moulded edge"} },
+  "hidrofugo-pp":    { kind:"negro", name:{es:"Aro de polipropileno",en:"Polypropylene ring"} },
+  "hpl":             { kind:"negro", name:{es:"Canto compacto",en:"Compact edge"} },
+  "wermodin-bistro": { kind:"oro",   name:{es:"Aro dorado",en:"Gold-tone ring"} }
+};
+const CORTOS = {
+  "wermodin-logo":   {es:"Wermodin Outdoor", en:"Wermodin Outdoor"},
+  "hidrofugo-pp":    {es:"Hidrófugo con aro PP", en:"Chipboard, PP ring"},
+  "hpl":             {es:"HPL compacto", en:"Compact HPL"},
+  "wermodin-bistro": {es:"Wermodin Bistro", en:"Wermodin Bistro"}
+};
+const studio = { mat:"hpl", finish:"blanco", shape:"round", size:70, logo:null, lx:.5, ly:.5, ls:.46, rot:0, err:"" };
 const t = k => T[lang][k] ?? k;
 const L = o => o[lang];
 const fmtSize = s => s.startsWith("R") ? "Ø" + s.slice(1) : s.replace("x","×");
@@ -594,7 +666,9 @@ const icon = {
   arrow:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
   zoom:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4 4M11 8v6M8 11h6"/></svg>',
   x:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>',
-  pin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>'
+  pin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>',
+  upload:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 16V4M8 8l4-4 4 4M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>',
+  download:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 4v12M8 12l4 4 4-4M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>'
 };
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const PRODUCT_START = 3;
@@ -726,74 +800,294 @@ function slideProduct(line, i){
   </div></div></section>`;
 }
 
-function boardSVG(){
-  const W = 520, C = W/2, scale = 5.8; // px por cm
-  const sizes = [60,70,77,80];
-  const round = state.sizeShape === "round";
-  const ghosts = sizes.map(n=>{
-    const s = n*scale;
-    return round ? `<circle class="ghost" cx="${C}" cy="${C}" r="${s/2}"/>`
-                 : `<rect class="ghost" x="${C-s/2}" y="${C-s/2}" width="${s}" height="${s}"/>`;
-  }).join("");
-  const labels = sizes.map((n,k)=>{
-    const r = n*scale/2;
-    if(round){
-      const a = [-150,-30,-120,-60][k]*Math.PI/180;
-      return `<text class="lbl" x="${C + (r+14)*Math.cos(a)}" y="${C + (r+14)*Math.sin(a) + 4}" text-anchor="middle">Ø${n}</text>`;
+/* ---------- Estudio ---------- */
+function studioLine(){ return LINES.find(l => l.id === studio.mat) || LINES[0]; }
+
+function studioShapes(line){
+  if(line.allSizes || !line.sizes.length) return { round:true, square:true };
+  return {
+    round:  line.sizes.some(c => c.startsWith("R")),
+    square: line.sizes.some(c => !c.startsWith("R"))
+  };
+}
+
+function studioSizes(line){
+  if(line.allSizes || !line.sizes.length) return [60,70,77,80];
+  const propias = line.sizes
+    .filter(c => studio.shape === "round" ? c.startsWith("R") : !c.startsWith("R"))
+    .map(c => parseInt(c.replace("R",""), 10));
+  return [...new Set(propias)].sort((a,b) => a-b);
+}
+
+/* Al cambiar de material, la forma y la medida se ajustan a lo que ese material ofrece */
+function studioAjusta(){
+  const line = studioLine();
+  const formas = studioShapes(line);
+  if(!formas[studio.shape]) studio.shape = formas.round ? "round" : "square";
+  const medidas = studioSizes(line);
+  if(!medidas.includes(studio.size)){
+    studio.size = medidas.reduce((a,b) => Math.abs(b-studio.size) < Math.abs(a-studio.size) ? b : a, medidas[0]);
+  }
+}
+
+const texturas = {};
+function textura(clave){
+  if(!texturas[clave]){
+    const img = new Image();
+    img.onload = () => dibujaMesa();
+    img.src = IMG[clave];
+    texturas[clave] = img;
+  }
+  return texturas[clave];
+}
+
+/* Silueta del tablero, redonda o cuadrada de esquinas suaves */
+function siluetaMesa(ctx, redonda, x, y, d){
+  ctx.beginPath();
+  if(redonda){ ctx.arc(x + d/2, y + d/2, d/2, 0, Math.PI*2); return; }
+  const r = d*0.02;
+  ctx.moveTo(x+r, y);
+  ctx.arcTo(x+d, y,   x+d, y+d, r);
+  ctx.arcTo(x+d, y+d, x,   y+d, r);
+  ctx.arcTo(x,   y+d, x,   y,   r);
+  ctx.arcTo(x,   y,   x+d, y,   r);
+  ctx.closePath();
+}
+
+function dibujaMesa(){
+  const c = document.getElementById("mockup");
+  if(!c) return;
+  const ctx = c.getContext("2d");
+  const S = c.width, d = S*0.78, x = (S-d)/2, y = (S-d)/2;
+  const redonda = studio.shape === "round";
+  const fin = FINISHES.find(f => f.id === studio.finish) || FINISHES[0];
+  const canto = EDGES[studio.mat] || EDGES.hpl;
+
+  ctx.clearRect(0, 0, S, S);
+
+  // Base con su sombra sobre el suelo
+  ctx.save();
+  ctx.shadowColor = "rgba(20,32,28,.24)";
+  ctx.shadowBlur = S*0.05;
+  ctx.shadowOffsetY = S*0.022;
+  siluetaMesa(ctx, redonda, x, y, d);
+  ctx.fillStyle = fin.color;
+  ctx.fill();
+  ctx.restore();
+
+  // Acabado fotográfico, si el acabado lo tiene
+  if(fin.img){
+    const tex = textura(fin.img);
+    if(tex.complete && tex.naturalWidth){
+      ctx.save();
+      siluetaMesa(ctx, redonda, x, y, d);
+      ctx.clip();
+      const k = Math.max(d/tex.naturalWidth, d/tex.naturalHeight)*(fin.zoom || 1.1);
+      const w = tex.naturalWidth*k, h = tex.naturalHeight*k;
+      ctx.drawImage(tex, S/2 - w/2, S/2 - h/2, w, h);
+      ctx.restore();
     }
-    const left = k%2===0;
-    return `<text class="lbl" x="${left ? C-r-6 : C+r+6}" y="${C-r+4}" text-anchor="${left?"end":"start"}">${n}</text>`;
-  }).join("");
-  const s = state.sizeVal*scale;
-  const sel = round ? `<circle class="sel" cx="${C}" cy="${C}" r="${s/2}"/>`
-                    : `<rect class="sel" x="${C-s/2}" y="${C-s/2}" width="${s}" height="${s}" rx="2"/>`;
-  let grid = "";
-  for(let x=0;x<=W;x+=58){ grid += `<line x1="${x}" y1="0" x2="${x}" y2="${W}"/><line x1="0" y1="${x}" x2="${W}" y2="${x}"/>`; }
-  return `<svg viewBox="-40 -30 ${W+80} ${W+60}" role="img" aria-label="${fmtSize((round?"R":"")+state.sizeVal+(round?"":"x"+state.sizeVal))}">
-    <g class="grid">${grid}</g>
-    ${ghosts}${sel}
-    <line class="dimline" x1="${C-s/2}" y1="${C}" x2="${C+s/2}" y2="${C}"/>
-    <text class="dim" x="${C}" y="${C-10}" text-anchor="middle">${state.sizeVal} cm</text>
-    ${labels}
-  </svg>`;
+  }
+
+  // El logo del cliente, recortado dentro del tablero
+  if(studio.logo && studio.logo.naturalWidth){
+    ctx.save();
+    siluetaMesa(ctx, redonda, x, y, d);
+    ctx.clip();
+    const lado = d*studio.ls;
+    const k = lado / Math.max(studio.logo.naturalWidth, studio.logo.naturalHeight);
+    const lw = studio.logo.naturalWidth*k, lh = studio.logo.naturalHeight*k;
+    ctx.translate(x + d*studio.lx, y + d*studio.ly);
+    ctx.rotate(studio.rot*Math.PI/180);
+    ctx.drawImage(studio.logo, -lw/2, -lh/2, lw, lh);
+    ctx.restore();
+  }
+
+  // Luz de estudio: la superficie no es plana
+  ctx.save();
+  siluetaMesa(ctx, redonda, x, y, d);
+  ctx.clip();
+  const luz = ctx.createLinearGradient(x, y, x+d, y+d);
+  luz.addColorStop(0,   "rgba(255,255,255,.18)");
+  luz.addColorStop(.42, "rgba(255,255,255,.03)");
+  luz.addColorStop(1,   "rgba(0,0,0,.10)");
+  ctx.fillStyle = luz;
+  ctx.fillRect(x, y, d, d);
+  ctx.restore();
+
+  // Canto o aro perimetral, según el material
+  ctx.save();
+  siluetaMesa(ctx, redonda, x, y, d);
+  if(canto.kind === "oro"){
+    ctx.lineWidth = S*0.020;
+    const oro = ctx.createLinearGradient(x, y, x+d, y+d);
+    oro.addColorStop(0,   "#F2DBA2");
+    oro.addColorStop(.32, "#B8914B");
+    oro.addColorStop(.62, "#8F6B2E");
+    oro.addColorStop(1,   "#E8CE8E");
+    ctx.strokeStyle = oro;
+  } else if(canto.kind === "negro"){
+    ctx.lineWidth = S*0.013;
+    ctx.strokeStyle = "#15181A";
+  } else {
+    ctx.lineWidth = S*0.016;
+    ctx.strokeStyle = "rgba(0,0,0,.28)";
+  }
+  ctx.stroke();
+  ctx.restore();
 }
 
-function availableLines(){
-  const code = state.sizeShape === "round" ? "R"+state.sizeVal : state.sizeVal+"x"+state.sizeVal;
-  return LINES.map((l,i)=>({l,i})).filter(({l})=> l.allSizes || l.sizes.includes(code));
+function studioEtiqueta(){
+  const redonda = studio.shape === "round";
+  const fin = FINISHES.find(f => f.id === studio.finish) || FINISHES[0];
+  const medida = redonda ? "Ø" + studio.size : studio.size + "×" + studio.size;
+  return `${medida} cm · ${L(fin.name)} · ${studio.logo ? t("withLogo") : t("noLogo")}`;
 }
 
-function sizesPanel(){
-  const round = state.sizeShape === "round";
-  const cm = state.sizeVal;
-  const area = round ? Math.PI*Math.pow(cm/200,2) : Math.pow(cm/100,2);
-  const avail = availableLines().map(({l,i})=>`<li><a href="#${PRODUCT_START+i+1}" data-go="${PRODUCT_START+i}">${L(l.name)}</a></li>`).join("");
+function studioControles(){
+  const line = studioLine();
+  const formas = studioShapes(line);
+  const medidas = studioSizes(line);
+  const fin = FINISHES.find(f => f.id === studio.finish) || FINISHES[0];
+  const canto = EDGES[studio.mat] || EDGES.hpl;
   return `
-    <div class="readout">
-      <div class="big">${round?"Ø":""}${cm}${round?"":"×"+cm}</div>
-      <div class="small">${area.toFixed(2).replace(".", lang==="es"?",":".")} m² ${t("surface")}</div>
+    <div class="ctrl ctrl-primero"><div class="config-label">${t("material")}</div><div class="chips">
+      ${LINES.map(l => `<button class="chip" data-smat="${l.id}" aria-pressed="${l.id===studio.mat}">${esc(L(CORTOS[l.id] || l.name))}</button>`).join("")}
+    </div></div>
+    <div class="ctrl ctrl-par">
+      <div><div class="config-label">${t("shape")}</div><div class="chips">
+        <button class="chip" data-sshape="round" aria-pressed="${studio.shape==="round"}"${formas.round?"":" disabled"}>${t("round")}</button>
+        <button class="chip" data-sshape="square" aria-pressed="${studio.shape==="square"}"${formas.square?"":" disabled"}>${t("square")}</button>
+      </div></div>
+      <div><div class="config-label">${t("size")}</div><div class="chips">
+        ${medidas.map(n => `<button class="chip" data-ssize="${n}" aria-pressed="${studio.size===n}">${n} cm</button>`).join("")}
+      </div></div>
     </div>
-    <div class="avail"><div class="config-label">${t("availIn")}</div><ul>${avail}</ul></div>`;
+    <div class="ctrl"><div class="config-label">${t("baseLbl")}</div>
+      <div class="swatches">
+        ${FINISHES.map(f => `<button class="swatch" data-sfin="${f.id}" aria-pressed="${f.id===studio.finish}" aria-label="${esc(L(f.name))}" title="${esc(L(f.name))}"><span style="background:${f.img ? `url(${IMG[f.img]}) center/cover` : f.color}"></span></button>`).join("")}
+      </div>
+      <p class="config-label finish-name">${esc(L(fin.name))} · ${esc(L(canto.name))}</p>
+    </div>`;
 }
 
-function slideSizes(){
-  const round = state.sizeShape === "round";
-  return `<section class="slide"><div class="inner"><div class="sizes">
-    <div>
-      <h2 class="h-l">${t("sizesTitle")}</h2>
-      <p class="lead">${t("sizesLead")}</p>
-      <div class="ctrl"><div class="config-label">${t("shape")}</div><div class="chips">
-        <button class="chip" data-shape="round" aria-pressed="${round}">${t("round")}</button>
-        <button class="chip" data-shape="square" aria-pressed="${!round}">${t("square")}</button>
-      </div></div>
-      <div class="ctrl"><div class="config-label">${t("size")}</div><div class="chips">
-        ${[60,70,77,80].map(n=>`<button class="chip" data-sval="${n}" aria-pressed="${state.sizeVal===n}">${n} cm</button>`).join("")}
-      </div></div>
-      <div id="sizesPanel">${sizesPanel()}</div>
+function studioHerramientas(){
+  return `
+    <div class="logo-row">
+      <label>
+        <input class="file-field" type="file" id="logoFile" accept="image/png,image/jpeg,image/svg+xml,image/webp">
+        <span class="btn-mini" role="button" tabindex="-1">${icon.upload}${studio.logo ? t("changeLogo") : t("logoBtn")}</span>
+      </label>
+      ${studio.logo ? `<button class="btn-mini" data-sact="center">${t("center")}</button>
+      <button class="btn-mini" data-sact="quitar">${t("removeLogo")}</button>` : ""}
+      <button class="btn-mini" data-sact="descargar">${icon.download}${t("download")}</button>
     </div>
-    <div class="board" id="board">${boardSVG()}</div>
+    ${studio.logo ? `<div class="sliders">
+      <label class="slider"><span class="config-label">${t("logoSize")}</span>
+        <input type="range" min="8" max="92" value="${Math.round(studio.ls*100)}" data-sls></label>
+      <label class="slider"><span class="config-label">${t("logoRot")}</span>
+        <input type="range" min="-180" max="180" value="${studio.rot}" data-srot></label>
+    </div>` : ""}
+    ${studio.err ? `<p class="studio-err">${studio.err}</p>` : ""}
+    <div class="add-row">
+      <button class="btn btn-ink" data-sact="anadir">${t("add")}</button>
+      <span class="hint">${t("attachHint")}</span>
+    </div>`;
+}
+
+function slideStudio(){
+  return `<section class="slide alu" id="studioSlide"><div class="inner"><div class="studio">
+    <div class="studio-side">
+      <header class="studio-intro">
+        <h2 class="h-l">${t("studioTitle")}</h2>
+        <p class="lead">${t("studioLead")}</p>
+      </header>
+      <div id="studioControls" class="studio-controls">${studioControles()}</div>
+    </div>
+    <div class="studio-main">
+      <div class="studio-stage">
+        <canvas id="mockup" class="mockup" width="1100" height="1100" role="img" aria-label="${t("preview")}"></canvas>
+        <p class="stage-note">${studio.logo ? t("dragHint") : t("logoHint")}</p>
+      </div>
+      <div class="logo-tools" id="studioTools">${studioHerramientas()}</div>
+    </div>
   </div></div></section>`;
 }
+
+/* Vuelve a pintar controles y mesa sin rehacer toda la presentación */
+function refrescaEstudio(soloMesa){
+  if(!soloMesa){
+    const ctrl = document.getElementById("studioControls");
+    const tools = document.getElementById("studioTools");
+    const nota = document.querySelector(".stage-note");
+    if(ctrl) ctrl.innerHTML = studioControles();
+    if(tools) tools.innerHTML = studioHerramientas();
+    if(nota) nota.textContent = studio.logo ? t("dragHint") : t("logoHint");
+  }
+  dibujaMesa();
+}
+
+function cargaLogo(file){
+  if(!file) return;
+  studio.err = "";
+  if(file.size > 8*1024*1024){ studio.err = t("logoBig"); refrescaEstudio(); return; }
+  const url = URL.createObjectURL(file);
+  const img = new Image();
+  img.onload = () => {
+    studio.logo = img;
+    studio.lx = .5; studio.ly = .5; studio.rot = 0; studio.ls = .46;
+    refrescaEstudio();
+  };
+  img.onerror = () => { URL.revokeObjectURL(url); studio.err = t("logoErr"); refrescaEstudio(); };
+  img.src = url;
+}
+
+function descargaMesa(){
+  const c = document.getElementById("mockup");
+  if(!c) return;
+  /* Abierta como archivo local, el navegador bloquea la exportación del lienzo */
+  try{ c.getContext("2d").getImageData(0,0,1,1); }
+  catch(_){ studio.err = t("downErr"); refrescaEstudio(); return; }
+  c.toBlob(blob => {
+    if(!blob) return;
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `koraconcept-${studio.mat}-${studio.size}cm.png`;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+  }, "image/png");
+}
+
+/* Arrastrar el logo sobre la mesa */
+let arrastre = false;
+function posEnMesa(e, c){
+  const r = c.getBoundingClientRect();
+  const d = r.width*0.78, x0 = (r.width-d)/2, y0 = (r.height-d)/2;
+  return {
+    x: Math.min(1, Math.max(0, (e.clientX - r.left - x0)/d)),
+    y: Math.min(1, Math.max(0, (e.clientY - r.top  - y0)/d))
+  };
+}
+document.addEventListener("pointerdown", e => {
+  const c = e.target.closest("#mockup");
+  if(!c || !studio.logo) return;
+  arrastre = true;
+  c.classList.add("dragging");
+  c.setPointerCapture?.(e.pointerId);
+  const q = posEnMesa(e, c); studio.lx = q.x; studio.ly = q.y;
+  dibujaMesa();
+});
+document.addEventListener("pointermove", e => {
+  if(!arrastre) return;
+  const c = document.getElementById("mockup");
+  if(!c) return;
+  const q = posEnMesa(e, c); studio.lx = q.x; studio.ly = q.y;
+  dibujaMesa();
+});
+document.addEventListener("pointerup", () => {
+  arrastre = false;
+  document.getElementById("mockup")?.classList.remove("dragging");
+});
 
 function slideProcess(){
   const strip = ["1664-redondo","taller-havana","cocacola","bistro-madera","mosaico"].map((n,k)=>{
@@ -854,13 +1148,14 @@ function slideQuote(){
 const deck = document.getElementById("deck");
 function renderAll(){
   deck.innerHTML = slideCover() + slideIntro() + slideIndex() +
-    LINES.map(slideProduct).join("") + slideSizes() + slideProcess() + slideQuote();
+    LINES.map(slideProduct).join("") + slideStudio() + slideProcess() + slideQuote();
   document.querySelectorAll("[data-t]").forEach(el=>el.textContent = t(el.dataset.t));
   document.querySelectorAll("[data-ta]").forEach(el=>el.setAttribute("aria-label", t(el.dataset.ta)));
   document.querySelectorAll("[data-lang]").forEach(b=>b.setAttribute("aria-pressed", b.dataset.lang===lang));
   document.documentElement.lang = lang;
   document.title = lang==="es" ? "Koraconcept, colección de tableros" : "Koraconcept, table top collection";
   renderMenu();
+  dibujaMesa();
   go(current, true);
 }
 const slides = () => [...deck.children];
@@ -972,8 +1267,21 @@ document.addEventListener("click", e=>{
     return;
   }
 
-  if(d.shape){ state.sizeShape = d.shape; updateSizes(); return; }
-  if(d.sval){ state.sizeVal = +d.sval; updateSizes(); return; }
+  if(d.smat){ studio.mat = d.smat; studioAjusta(); refrescaEstudio(); return; }
+  if(d.sshape){ studio.shape = d.sshape; studioAjusta(); refrescaEstudio(); return; }
+  if(d.ssize){ studio.size = +d.ssize; refrescaEstudio(); return; }
+  if(d.sfin){ studio.finish = d.sfin; refrescaEstudio(); return; }
+  if(d.sact === "center"){ studio.lx = .5; studio.ly = .5; dibujaMesa(); return; }
+  if(d.sact === "quitar"){ studio.logo = null; studio.err = ""; refrescaEstudio(); return; }
+  if(d.sact === "descargar"){ descargaMesa(); return; }
+  if(d.sact === "anadir"){
+    const line = studioLine();
+    const label = studioEtiqueta();
+    const igual = state.cart.find(c => c.id === line.id && c.label === label);
+    if(igual) igual.qty++; else state.cart.push({ id:line.id, label, qty:1 });
+    refreshCart(); toast(t("added"));
+    return;
+  }
 
   if(d.qty !== undefined){ const it = state.cart[+d.qty]; it.qty = Math.max(1, it.qty + (+d.d)); refreshCart(); return; }
   if(d.rm !== undefined){ state.cart.splice(+d.rm,1); refreshCart(); return; }
@@ -994,16 +1302,16 @@ document.addEventListener("click", e=>{
   if(el.id==="lbNext"){ stepLightbox(1); return; }
 });
 
-function updateSizes(){
-  const sec = document.getElementById("board").closest(".slide");
-  sec.querySelectorAll("[data-shape]").forEach(b=>b.setAttribute("aria-pressed", b.dataset.shape===state.sizeShape));
-  sec.querySelectorAll("[data-sval]").forEach(b=>b.setAttribute("aria-pressed", +b.dataset.sval===state.sizeVal));
-  document.getElementById("board").innerHTML = boardSVG();
-  document.getElementById("sizesPanel").innerHTML = sizesPanel();
-}
+
+
+document.addEventListener("change", e=>{
+  if(e.target.id === "logoFile"){ cargaLogo(e.target.files && e.target.files[0]); }
+});
 
 document.addEventListener("input", e=>{
   const d = e.target.dataset;
+  if(d.sls !== undefined){ studio.ls = (+e.target.value)/100; dibujaMesa(); return; }
+  if(d.srot !== undefined){ studio.rot = +e.target.value; dibujaMesa(); return; }
   if(d.free){ (state.choice[d.free] ||= {}).free = e.target.value.trim(); }
   if(d.qtyin !== undefined){ const v = parseInt(e.target.value,10); if(v>0){ state.cart[+d.qtyin].qty = v; updateBadge(); } }
   if(e.target.id==="qName") state.name = e.target.value;
@@ -1068,7 +1376,7 @@ document.addEventListener("keydown", e=>{
 let tx=0, ty=0;
 deck.addEventListener("touchstart", e=>{ tx=e.touches[0].clientX; ty=e.touches[0].clientY; }, {passive:true});
 deck.addEventListener("touchend", e=>{
-  if(e.target.closest("input, textarea")) return;
+  if(e.target.closest("input, textarea, #mockup, .logo-tools")) return;
   const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
   if(Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)*1.5) go(current + (dx<0 ? 1 : -1));
 }, {passive:true});
