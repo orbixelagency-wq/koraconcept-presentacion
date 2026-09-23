@@ -423,14 +423,16 @@ const IMG = {
   "taller-1664-terrazo":"assets/tablero-07.jpg",
   "taller-aros-pp":"assets/tablero-08.jpg",
   "taller-fijacion":"assets/tablero-10.jpg",
-  "terraza-formica":"assets/tablero-11.jpg",
-  "bistro-marmol-negro":"assets/tablero-12.jpg",
-  "bistro-marmol-blanco":"assets/tablero-13.jpg"
+  "terraza":"assets/tablero-11.jpg",
+  "bistro-marmol-negro":"assets/estudio-bistro-marmol-negro.jpg",
+  "bistro-marmol-gris":"assets/estudio-bistro-marmol-gris.jpg",
+  "bistro-marmol-blanco":"assets/estudio-bistro-marmol-blanco.jpg",
+  "bistro-madera":"assets/estudio-bistro-madera.jpg"
 };
 
 /* ---------- Colección (contenido del documento) ---------- */
 const LINES = [
-  { id:"wermodin-logo", img:["stammtisch","cocacola","eiscafe","salitos-base-blanca","stammtisch-alta","taller-stammtisch"],
+  { id:"wermodin-logo", img:["stammtisch","cocacola","eiscafe","salitos-base-blanca","stammtisch-alta","pops-pizza","taller-stammtisch"],
     kind:{es:"Exterior con logo",en:"Outdoor, branded"},
     name:{es:"Wermodin Outdoor con logo",en:"Wermodin Outdoor tops with logo"},
     desc:{es:"Tablero de exterior con la imagen de tu marca impresa en toda la superficie. Redondo o cuadrado, listo para la terraza.",
@@ -444,26 +446,19 @@ const LINES = [
           en:"Moisture-resistant chipboard top with a polypropylene edge ring and your brand logo. It has the widest size range, and other sizes are available on request."},
     specs:[["material",{es:"Aglomerado hidrófugo",en:"Moisture-resistant chipboard"}],["edge",{es:"Aro de polipropileno (PP)",en:"Polypropylene (PP) ring"}],["custom",{es:"Logo",en:"Logo"}]],
     sizes:["R60","60x60","R70","70x70","R77","77x77","R80","80x80"], onDemand:true },
-  { id:"hpl", img:["1664-redondo","1664-terrazo","mosaico","biang-azul","biang-canto","salitos-negro","pops-pizza","taller-fijacion","taller-1664","taller-pops-pizza"],
+  { id:"hpl", img:["1664-redondo","1664-terrazo","mosaico","biang-azul","biang-canto","salitos-negro","taller-fijacion","taller-1664","taller-pops-pizza"],
     kind:{es:"Compacto con fijación",en:"Compact with fixing system"},
     name:{es:"Tableros HPL con logo",en:"HPL tops with logo"},
     desc:{es:"Tablero de HPL compacto con impresión a todo color: logos, fondos y motivos gráficos. Incluye el sistema de fijación a la base y se fabrica en cualquier medida, redondo o cuadrado.",
           en:"Compact HPL top with full-colour printing: logos, backgrounds and graphic patterns. It comes with the fixing system for the base and is made in any size, round or square."},
     specs:[["material",{es:"HPL compacto",en:"Compact HPL"}],["thickness",{es:"10 mm o 12 mm",en:"10 mm or 12 mm"}],["fixing",{es:"Incluido",en:"Included"}],["custom",{es:"Diseño a todo color",en:"Full-colour design"}],["sizesL",{es:"Todas las medidas",en:"All sizes"}]],
     thickness:["10 mm","12 mm"], sizes:[], allSizes:true, freeSize:true },
-  { id:"formica-bistro", img:["terraza-formica"],
-    kind:{es:"Bistro de exterior",en:"Outdoor bistro"},
-    name:{es:"Bistro de Formica con aro de aluminio",en:"Formica bistro tops with aluminium ring"},
-    desc:{es:"El aire del café clásico en la terraza: superficie decorativa de Formica con aro perimetral de aluminio.",
-          en:"The classic café look, outdoors: a decorative Formica surface finished with an aluminium edge ring."},
-    specs:[["material",{es:"Formica",en:"Formica"}],["edge",{es:"Aro de aluminio",en:"Aluminium ring"}],["use",{es:"Exterior",en:"Outdoor"}]],
-    sizes:["R60","60x60","R70","70x70","R80","80x80"] },
-  { id:"wermodin-bistro", img:["bistro-marmol-negro","bistro-marmol-blanco"],
+  { id:"wermodin-bistro", img:["bistro-marmol-negro","bistro-madera","bistro-marmol-gris","bistro-marmol-blanco"],
     kind:{es:"Bistro",en:"Bistro"},
     name:{es:"Wermodin Bistro",en:"Wermodin Bistro tops"},
-    desc:{es:"Tablero redondo de estilo bistro. En las imágenes, acabados efecto mármol negro y blanco con aro dorado.",
-          en:"Round bistro-style top. Pictured in black and white marble-effect finishes with a gold-tone ring."},
-    specs:[["material",{es:"Wermodin",en:"Wermodin"}],["format",{es:"Redondo",en:"Round"}]],
+    desc:{es:"Tablero redondo de estilo bistro con aro perimetral metálico. En las imágenes, acabados efecto mármol negro, gris y blanco y efecto madera, con aro dorado o cromado.",
+          en:"Round bistro-style top with a metal edge ring. Pictured in black, grey and white marble-effect finishes and a wood-effect finish, with a gold-tone or chrome ring."},
+    specs:[["material",{es:"Wermodin",en:"Wermodin"}],["edge",{es:"Aro dorado o cromado",en:"Gold-tone or chrome ring"}],["format",{es:"Redondo",en:"Round"}]],
     sizes:["R60","R70","R80"] }
 ];
 
@@ -478,8 +473,8 @@ const T = {
     p1t:"Tu marca en la mesa", p1d:"Logos e imágenes de marca integrados en la superficie del tablero.",
     p2t:"Pensados para la terraza", p2d:"Materiales para uso intensivo, exterior y humedad: Wermodin, HPL y aglomerado hidrófugo.",
     p3t:"Medidas para cada local", p3d:"Redondos y cuadrados, de 60 a 80 cm. Otras medidas bajo demanda.",
-    terrace:"Bistro de Formica en terraza",
-    indexTitle:"Cinco líneas, un mismo objetivo", sizesTbd:"A medida", roundSquare:"redondos y cuadrados", roundOnly:"solo redondos", allSizes:"Todas las medidas",
+    terrace:"Tableros de terraza con aro dorado",
+    indexTitle:"Cuatro líneas, un mismo objetivo", sizesTbd:"A medida", roundSquare:"redondos y cuadrados", roundOnly:"solo redondos", allSizes:"Todas las medidas",
     material:"Material", use:"Uso", custom:"Personalización", edge:"Aro", thickness:"Grosor", fixing:"Sistema de fijación", sizesL:"Medidas", format:"Formato",
     chooseSize:"Elige medida", chooseThick:"Elige grosor", desiredSize:"Medida deseada", desiredPh:"p. ej. Ø70 o 70×120",
     onDemand:"Otras medidas bajo demanda.", add:"Añadir a mi selección", added:"Añadido a tu selección", needSize:"Elige una medida para añadirlo.", needThick:"Elige un grosor para añadirlo.",
@@ -498,7 +493,7 @@ const T = {
     contactTitle:"Hablemos de tu proyecto", contactLead:"Koraconcept Mobiliario. Tableros y mobiliario para hostelería.",
     where:"Dónde", phone:"Teléfono", email:"Email", web:"Web",
     mailSubject:"Solicitud de presupuesto: tableros Koraconcept", mailIntro:"Hola, me gustaría recibir presupuesto de los siguientes tableros:",
-    slides:["Portada","Qué hacemos","La colección","Wermodin Outdoor con logo","Aglomerado hidrófugo","Tableros HPL","Bistro de Formica","Wermodin Bistro","Comparar medidas","Cómo trabajamos","Presupuesto"]
+    slides:["Portada","Qué hacemos","La colección","Wermodin Outdoor con logo","Aglomerado hidrófugo","Tableros HPL","Wermodin Bistro","Comparar medidas","Cómo trabajamos","Presupuesto"]
   },
   en:{
     a11yMenu:"Contents", a11yFs:"Full screen", a11yPrev:"Previous", a11yNext:"Next", a11yClose:"Close", a11yImage:"Image",
@@ -509,8 +504,8 @@ const T = {
     p1t:"Your brand on the table", p1d:"Logos and brand artwork built into the table top surface.",
     p2t:"Built for the terrace", p2d:"Materials for heavy use, outdoors and damp conditions: Wermodin, HPL and moisture-resistant chipboard.",
     p3t:"Sizes for every venue", p3d:"Round and square, from 60 to 80 cm. Other sizes on request.",
-    terrace:"Formica bistro on a terrace",
-    indexTitle:"Five lines, one goal", sizesTbd:"Made to size", roundSquare:"round and square", roundOnly:"round only", allSizes:"All sizes",
+    terrace:"Terrace table tops with a gold-tone ring",
+    indexTitle:"Four lines, one goal", sizesTbd:"Made to size", roundSquare:"round and square", roundOnly:"round only", allSizes:"All sizes",
     material:"Material", use:"Use", custom:"Branding", edge:"Ring", thickness:"Thickness", fixing:"Fixing system", sizesL:"Sizes", format:"Format",
     chooseSize:"Choose a size", chooseThick:"Choose thickness", desiredSize:"Size required", desiredPh:"e.g. Ø70 or 70×120",
     onDemand:"Other sizes on request.", add:"Add to my selection", added:"Added to your selection", needSize:"Choose a size to add it.", needThick:"Choose a thickness to add it.",
@@ -529,7 +524,7 @@ const T = {
     contactTitle:"Let's talk about your project", contactLead:"Koraconcept Mobiliario. Table tops and furniture for hospitality.",
     where:"Where", phone:"Phone", email:"Email", web:"Web",
     mailSubject:"Quote request: Koraconcept table tops", mailIntro:"Hello, I would like a quote for the following table tops:",
-    slides:["Cover","What we do","The collection","Wermodin Outdoor with logo","Moisture-resistant chipboard","HPL tops","Formica bistro","Wermodin Bistro","Compare sizes","How we work","Quote"]
+    slides:["Cover","What we do","The collection","Wermodin Outdoor with logo","Moisture-resistant chipboard","HPL tops","Wermodin Bistro","Compare sizes","How we work","Quote"]
   }
 };
 
@@ -573,7 +568,7 @@ function slideCover(){
       <p class="lead">${t("coverLead")}</p>
       <div class="actions">
         <button class="btn btn-brass" data-go="2">${t("seeCollection")}</button>
-        <button class="btn btn-line" data-go="8">${t("compareSizes")}</button>
+        <button class="btn btn-line" data-go="7">${t("compareSizes")}</button>
       </div>
       <p class="place">${icon.pin}${esc(CONFIG.address)}</p>
     </div>
@@ -599,7 +594,7 @@ function slideIntro(){
         <div class="pillar"><h3>${t("p3t")}</h3><p>${t("p3d")}</p></div>
       </div>
     </div>
-    <figure class="intro-photo"><img src="${IMG["terraza-formica"]}" alt="${t("terrace")}"><figcaption>${t("terrace")}</figcaption></figure>
+    <figure class="intro-photo"><img src="${IMG["terraza"]}" alt="${t("terrace")}"><figcaption>${t("terrace")}</figcaption></figure>
   </div></div></section>`;
 }
 
@@ -742,7 +737,7 @@ function slideSizes(){
 }
 
 function slideProcess(){
-  const strip = ["1664-redondo","taller-havana","cocacola","bistro-marmol-negro","mosaico"].map((n,k)=>{
+  const strip = ["1664-redondo","taller-havana","cocacola","bistro-madera","mosaico"].map((n,k)=>{
     const lineIdx = LINES.findIndex(l=>l.img.includes(n));
     return `<button data-go="${PRODUCT_START+lineIdx}" aria-label="${L(LINES[lineIdx].name)}"><img src="${IMG[n]}" alt=""></button>`;
   }).join("");
