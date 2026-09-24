@@ -202,16 +202,13 @@ h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.025em;line-
 .ctrl + .ctrl{margin-top:16px}
 .ctrl-par{display:grid;grid-template-columns:auto 1fr;gap:16px 28px;align-items:start}
 .chip[disabled]{opacity:.38;cursor:not-allowed}
-.swatches{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
-.swatch{width:36px;height:36px;border-radius:50%;padding:3px;border:1px solid var(--line);background:#fff;transition:border-color .2s var(--ease-out),transform .2s var(--ease-out)}
-.swatch span{display:block;width:100%;height:100%;border-radius:50%;background-size:cover;background-position:center}
-.swatch:hover{border-color:var(--ink)}
-.swatch[aria-pressed="true"]{border-color:var(--brass-deep);transform:scale(1.08)}
-.finish-name{margin-top:10px}
+.finish-name{margin-top:16px}
 
 .studio-stage{display:grid;gap:10px;justify-items:center}
 .mockup{width:100%;max-width:min(420px,42vh);aspect-ratio:1;touch-action:none;cursor:grab;border-radius:10px}
-.mockup.dragging{cursor:grabbing}
+.mockup:focus-visible{outline:2px solid var(--brass);outline-offset:4px}
+.mockup.girando{cursor:grabbing}
+.mockup.moviendo{cursor:move}
 .stage-note{font-size:13px;line-height:1.45;color:var(--muted);text-align:center;max-width:46ch;min-height:2.2em}
 .logo-tools{width:100%;max-width:min(460px,48vh);display:grid;gap:10px;padding-top:12px;border-top:1px solid var(--line)}
 .logo-row{display:flex;flex-wrap:wrap;gap:8px}
@@ -561,11 +558,12 @@ const T = {
     chooseSize:"Elige medida", chooseThick:"Elige grosor", desiredSize:"Medida deseada", desiredPh:"p. ej. Ø70 o 70×120",
     onDemand:"Otras medidas bajo demanda.", add:"Añadir a mi selección", added:"Añadido a tu selección", needSize:"Elige una medida para añadirlo.", needThick:"Elige un grosor para añadirlo.",
     zoom:"Ampliar imagen",
-    studioTitle:"Diseña tu tablero", studioLead:"Elige material, forma, medida y acabado, sube tu logo y colócalo. Todo se compone en tu navegador: el logo no sale de tu ordenador.",
-    shape:"Forma", round:"Redonda", square:"Cuadrada", size:"Medida", baseLbl:"Acabado", preview:"Tu tablero con tu logo",
+    studioTitle:"Diseña tu tablero", studioLead:"Elige material, forma y medida, sube tu logo y gira la mesa para verla desde cualquier ángulo. Todo se compone en tu navegador: el logo no sale de tu ordenador.",
+    shape:"Forma", round:"Redonda", square:"Cuadrada", size:"Medida", baseNote:"base neutra para ver el logo", preview:"Tu tablero con tu logo, en 3D",
+    viewReset:"Vista inicial",
     logoBtn:"Subir mi logo", changeLogo:"Cambiar logo", removeLogo:"Quitar logo", center:"Centrar",
-    logoHint:"Sube tu logo en PNG con fondo transparente, SVG o JPG. Máximo 8 MB.",
-    dragHint:"Arrastra el logo sobre la mesa para colocarlo. Ajusta el tamaño y el giro abajo.",
+    logoHint:"Arrastra la mesa para girarla. Sube tu logo en PNG con fondo transparente, SVG o JPG.",
+    dragHint:"Arrastra el logo para colocarlo y la mesa para girarla en 3D.",
     logoErr:"No hemos podido abrir esa imagen. Prueba con un PNG o un JPG.", downErr:"Para descargar la imagen, abre la presentación desde su enlace web.", logoBig:"La imagen pesa más de 8 MB. Sube una más ligera.",
     logoSize:"Tamaño del logo", logoRot:"Giro", download:"Descargar la imagen", withLogo:"con logo", noLogo:"sin logo",
     attachHint:"Al enviar la solicitud, adjunta tu logo al correo o descarga la imagen y añádela.",
@@ -599,11 +597,12 @@ const T = {
     chooseSize:"Choose a size", chooseThick:"Choose thickness", desiredSize:"Size required", desiredPh:"e.g. Ø70 or 70×120",
     onDemand:"Other sizes on request.", add:"Add to my selection", added:"Added to your selection", needSize:"Choose a size to add it.", needThick:"Choose a thickness to add it.",
     zoom:"Enlarge image",
-    studioTitle:"Design your table top", studioLead:"Choose material, shape, size and finish, upload your logo and place it. Everything is composed in your browser: the logo never leaves your computer.",
-    shape:"Shape", round:"Round", square:"Square", size:"Size", baseLbl:"Finish", preview:"Your table top with your logo",
+    studioTitle:"Design your table top", studioLead:"Choose material, shape and size, upload your logo and turn the table to see it from any angle. Everything is composed in your browser: the logo never leaves your computer.",
+    shape:"Shape", round:"Round", square:"Square", size:"Size", baseNote:"neutral base so the logo reads", preview:"Your table top with your logo, in 3D",
+    viewReset:"Reset view",
     logoBtn:"Upload my logo", changeLogo:"Change logo", removeLogo:"Remove logo", center:"Centre",
-    logoHint:"Upload your logo as a transparent PNG, an SVG or a JPG. 8 MB maximum.",
-    dragHint:"Drag the logo across the top to place it. Adjust its size and rotation below.",
+    logoHint:"Drag the table to turn it. Upload your logo as a transparent PNG, an SVG or a JPG.",
+    dragHint:"Drag the logo to place it and the table to turn it in 3D.",
     logoErr:"We could not open that image. Try a PNG or a JPG.", downErr:"To download the image, open the presentation from its web link.", logoBig:"That image is over 8 MB. Please upload a lighter one.",
     logoSize:"Logo size", logoRot:"Rotation", download:"Download the image", withLogo:"with logo", noLogo:"no logo",
     attachHint:"When you send the request, attach your logo to the email or download the image and add it.",
@@ -635,22 +634,12 @@ let lang = initialLang();
 let current = 0;
 const state = { choice:{}, cart:[], name:"", notes:"" };
 
-/* ---------- Estudio: acabados y cantos ---------- */
-const FINISHES = [
-  { id:"blanco",   name:{es:"Blanco",en:"White"},                 color:"#F1F0EC" },
-  { id:"arena",    name:{es:"Arena",en:"Sand"},                   color:"#DCCBA6" },
-  { id:"negro",    name:{es:"Negro",en:"Black"},                  color:"#1B1D1C" },
-  { id:"oliva",    name:{es:"Verde oliva",en:"Olive green"},      color:"#49583F" },
-  { id:"burdeos",  name:{es:"Burdeos",en:"Burgundy"},             color:"#6B2331" },
-  { id:"marino",   name:{es:"Azul marino",en:"Navy blue"},        color:"#22354D" },
-  { id:"marmol-b", name:{es:"Efecto mármol blanco",en:"White marble effect"}, color:"#EDE9E3", img:"bistro-marmol-blanco", zoom:2.15 },
-  { id:"marmol-g", name:{es:"Efecto mármol gris",en:"Grey marble effect"},    color:"#6F706C", img:"bistro-marmol-gris", zoom:2.15 }
-];
-const EDGES = {
-  "wermodin-logo":   { kind:"tono",  name:{es:"Canto moldeado",en:"Moulded edge"} },
-  "hidrofugo-pp":    { kind:"negro", name:{es:"Aro de polipropileno",en:"Polypropylene ring"} },
-  "hpl":             { kind:"negro", name:{es:"Canto compacto",en:"Compact edge"} },
-  "wermodin-bistro": { kind:"oro",   name:{es:"Aro dorado",en:"Gold-tone ring"} }
+/* ---------- Estudio: cada material, con su base neutra y su canto ---------- */
+const MATERIALES = {
+  "wermodin-logo":   { base:"#F1EEE7", canto:"tono",  grosor:.030, name:{es:"Canto moldeado",en:"Moulded edge"} },
+  "hidrofugo-pp":    { base:"#F3F2EF", canto:"pp",    grosor:.036, name:{es:"Aro de polipropileno",en:"Polypropylene ring"} },
+  "hpl":             { base:"#FAFAF7", canto:"negro", grosor:.022, name:{es:"Canto compacto",en:"Compact edge"} },
+  "wermodin-bistro": { base:"#F2F0EA", canto:"oro",   grosor:.030, name:{es:"Aro dorado",en:"Gold-tone ring"} }
 };
 const CORTOS = {
   "wermodin-logo":   {es:"Wermodin Outdoor", en:"Wermodin Outdoor"},
@@ -658,7 +647,8 @@ const CORTOS = {
   "hpl":             {es:"HPL compacto", en:"Compact HPL"},
   "wermodin-bistro": {es:"Wermodin Bistro", en:"Wermodin Bistro"}
 };
-const studio = { mat:"hpl", finish:"blanco", shape:"round", size:70, logo:null, lx:.5, ly:.5, ls:.46, rot:0, err:"" };
+/* giro: rotación sobre el eje vertical · alzado: altura de la cámara */
+const studio = { mat:"hpl", shape:"round", size:70, logo:null, lx:.5, ly:.5, ls:.46, rot:0, giro:-24, alzado:56, err:"" };
 const t = k => T[lang][k] ?? k;
 const L = o => o[lang];
 const fmtSize = s => s.startsWith("R") ? "Ø" + s.slice(1) : s.replace("x","×");
@@ -668,7 +658,8 @@ const icon = {
   x:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>',
   pin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>',
   upload:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 16V4M8 8l4-4 4 4M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>',
-  download:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 4v12M8 12l4 4 4-4M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>'
+  download:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 4v12M8 12l4 4 4-4M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>',
+  view:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><ellipse cx="12" cy="11" rx="9" ry="4.2"/><path d="M3 11v2.2c0 2.3 4 4.2 9 4.2s9-1.9 9-4.2V11"/></svg>'
 };
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const PRODUCT_START = 3;
@@ -830,126 +821,197 @@ function studioAjusta(){
   }
 }
 
-const texturas = {};
-function textura(clave){
-  if(!texturas[clave]){
-    const img = new Image();
-    img.onload = () => dibujaMesa();
-    img.src = IMG[clave];
-    texturas[clave] = img;
-  }
-  return texturas[clave];
+/* ---------- Geometría ----------
+   El tablero vive en un plano horizontal. La cámara lo mira desde un alzado
+   (0° = a ras de mesa, 90° = cenital) y el tablero gira sobre su eje. La
+   proyección es axonométrica: recta, sin deformaciones raras, como un render
+   de catálogo. ------------------------------------------------------------ */
+function camara(S){
+  const a = studio.giro * Math.PI/180;
+  const e = studio.alzado * Math.PI/180;
+  const d = S*0.76;                       // diámetro del tablero en píxeles
+  return {
+    d, cx:S/2, cy:S*0.47,
+    cos:Math.cos(a), sin:Math.sin(a),
+    apl:Math.sin(e),                      // aplastamiento vertical del plano
+    alto:Math.cos(e)                      // cuánto canto se ve
+  };
 }
-
-/* Silueta del tablero, redonda o cuadrada de esquinas suaves */
-function siluetaMesa(ctx, redonda, x, y, d){
+/* Un punto del tablero (unidades de diámetro, centro 0,0) a píxeles */
+function aPantalla(u, v, c){
+  const x = u*c.cos - v*c.sin;
+  const y = u*c.sin + v*c.cos;
+  return [c.cx + x*c.d, c.cy + y*c.d*c.apl];
+}
+/* Y al revés: de píxeles al plano del tablero, para arrastrar el logo */
+function aTablero(px, py, c){
+  const x = (px - c.cx)/c.d;
+  const y = (py - c.cy)/(c.d*c.apl || .0001);
+  return [x*c.cos + y*c.sin, -x*c.sin + y*c.cos];
+}
+/* Contorno del tablero en el plano, muestreado para proyectarlo entero */
+function contorno(){
+  const pts = [];
+  if(studio.shape === "round"){
+    for(let i=0; i<120; i++){
+      const a = i/120*Math.PI*2;
+      pts.push([Math.cos(a)*.5, Math.sin(a)*.5]);
+    }
+  } else {
+    const r = .045, k = .5 - r;
+    const esquinas = [[k,k,0],[-k,k,1],[-k,-k,2],[k,-k,3]];
+    for(const [ex,ey,q] of esquinas){
+      for(let i=0; i<=12; i++){
+        const a = (q*90 + i/12*90) * Math.PI/180;
+        pts.push([ex + Math.cos(a)*r, ey + Math.sin(a)*r]);
+      }
+    }
+  }
+  return pts;
+}
+function trazaContorno(ctx, pts, c, dy){
   ctx.beginPath();
-  if(redonda){ ctx.arc(x + d/2, y + d/2, d/2, 0, Math.PI*2); return; }
-  const r = d*0.02;
-  ctx.moveTo(x+r, y);
-  ctx.arcTo(x+d, y,   x+d, y+d, r);
-  ctx.arcTo(x+d, y+d, x,   y+d, r);
-  ctx.arcTo(x,   y+d, x,   y,   r);
-  ctx.arcTo(x,   y,   x+d, y,   r);
+  pts.forEach(([u,v], i) => {
+    const [x,y] = aPantalla(u, v, c);
+    i ? ctx.lineTo(x, y + (dy||0)) : ctx.moveTo(x, y + (dy||0));
+  });
   ctx.closePath();
+}
+/* El canto visible: la mitad de abajo del contorno, extruida hacia el suelo */
+function trazaCanto(ctx, pts, c, h){
+  const proy = pts.map(([u,v]) => aPantalla(u, v, c));
+  let iIzq = 0, iDer = 0;
+  proy.forEach((p, i) => { if(p[0] < proy[iIzq][0]) iIzq = i; if(p[0] > proy[iDer][0]) iDer = i; });
+  const cadena = [];
+  for(let i = iIzq; ; i = (i+1) % proy.length){
+    cadena.push(proy[i]);
+    if(i === iDer) break;
+  }
+  // De las dos cadenas posibles se toma la que pasa por abajo
+  const media = cadena.reduce((a,p) => a + p[1], 0) / cadena.length;
+  const mediaTotal = proy.reduce((a,p) => a + p[1], 0) / proy.length;
+  let baja = cadena;
+  if(media < mediaTotal){
+    baja = [];
+    for(let i = iDer; ; i = (i+1) % proy.length){
+      baja.push(proy[i]);
+      if(i === iIzq) break;
+    }
+    baja.reverse();
+  }
+  ctx.beginPath();
+  baja.forEach(([x,y], i) => i ? ctx.lineTo(x,y) : ctx.moveTo(x,y));
+  for(let i = baja.length-1; i >= 0; i--) ctx.lineTo(baja[i][0], baja[i][1] + h);
+  ctx.closePath();
+  return baja;
 }
 
 function dibujaMesa(){
-  const c = document.getElementById("mockup");
-  if(!c) return;
-  const ctx = c.getContext("2d");
-  const S = c.width, d = S*0.78, x = (S-d)/2, y = (S-d)/2;
-  const redonda = studio.shape === "round";
-  const fin = FINISHES.find(f => f.id === studio.finish) || FINISHES[0];
-  const canto = EDGES[studio.mat] || EDGES.hpl;
+  const cv = document.getElementById("mockup");
+  if(!cv) return;
+  const ctx = cv.getContext("2d");
+  const S = cv.width;
+  const c = camara(S);
+  const mat = MATERIALES[studio.mat] || MATERIALES.hpl;
+  const pts = contorno();
+  const h = S*mat.grosor*c.alto;          // canto visible, en píxeles
 
+  ctx.setTransform(1,0,0,1,0,0);
   ctx.clearRect(0, 0, S, S);
 
-  // Base con su sombra sobre el suelo
+  // Sombra: una capa amplia y difusa, y otra ceñida al canto
   ctx.save();
-  ctx.shadowColor = "rgba(20,32,28,.24)";
-  ctx.shadowBlur = S*0.05;
-  ctx.shadowOffsetY = S*0.022;
-  siluetaMesa(ctx, redonda, x, y, d);
-  ctx.fillStyle = fin.color;
+  ctx.globalAlpha = .16 + .10*c.alto;
+  ctx.filter = `blur(${S*0.045}px)`;
+  ctx.fillStyle = "#16201D";
+  ctx.translate(S*0.012, h + S*0.030);
+  trazaContorno(ctx, pts, c, 0);
   ctx.fill();
   ctx.restore();
 
-  // Acabado fotográfico, si el acabado lo tiene
-  if(fin.img){
-    const tex = textura(fin.img);
-    if(tex.complete && tex.naturalWidth){
-      ctx.save();
-      siluetaMesa(ctx, redonda, x, y, d);
-      ctx.clip();
-      const k = Math.max(d/tex.naturalWidth, d/tex.naturalHeight)*(fin.zoom || 1.1);
-      const w = tex.naturalWidth*k, h = tex.naturalHeight*k;
-      ctx.drawImage(tex, S/2 - w/2, S/2 - h/2, w, h);
-      ctx.restore();
-    }
-  }
+  ctx.save();
+  ctx.globalAlpha = .30;
+  ctx.filter = `blur(${S*0.012}px)`;
+  ctx.fillStyle = "#16201D";
+  trazaContorno(ctx, pts, c, h + S*0.004);
+  ctx.fill();
+  ctx.restore();
 
-  // El logo del cliente, recortado dentro del tablero
+  // Canto
+  ctx.save();
+  trazaCanto(ctx, pts, c, h);
+  const gCanto = ctx.createLinearGradient(0, c.cy, 0, c.cy + h*2.2);
+  if(mat.canto === "oro"){
+    gCanto.addColorStop(0, "#F3DFAA"); gCanto.addColorStop(.35, "#C79C52");
+    gCanto.addColorStop(.7, "#8F6B2E"); gCanto.addColorStop(1, "#6E5220");
+  } else if(mat.canto === "pp" || mat.canto === "negro"){
+    gCanto.addColorStop(0, "#2A2E30"); gCanto.addColorStop(.5, "#191C1E"); gCanto.addColorStop(1, "#0E1011");
+  } else {
+    gCanto.addColorStop(0, "#D9D5CB"); gCanto.addColorStop(1, "#A9A498");
+  }
+  ctx.fillStyle = gCanto;
+  ctx.fill();
+  ctx.restore();
+
+  // Superficie
+  ctx.save();
+  trazaContorno(ctx, pts, c, 0);
+  ctx.fillStyle = mat.base;
+  ctx.fill();
+  ctx.clip();
+
+  // El logo, tumbado sobre el plano del tablero
   if(studio.logo && studio.logo.naturalWidth){
     ctx.save();
-    siluetaMesa(ctx, redonda, x, y, d);
-    ctx.clip();
-    const lado = d*studio.ls;
+    ctx.setTransform(c.d*c.cos, c.d*c.sin*c.apl, -c.d*c.sin, c.d*c.cos*c.apl, c.cx, c.cy);
+    ctx.translate(studio.lx - .5, studio.ly - .5);
+    ctx.rotate(studio.rot*Math.PI/180);
+    const lado = studio.ls;
     const k = lado / Math.max(studio.logo.naturalWidth, studio.logo.naturalHeight);
     const lw = studio.logo.naturalWidth*k, lh = studio.logo.naturalHeight*k;
-    ctx.translate(x + d*studio.lx, y + d*studio.ly);
-    ctx.rotate(studio.rot*Math.PI/180);
     ctx.drawImage(studio.logo, -lw/2, -lh/2, lw, lh);
     ctx.restore();
   }
 
-  // Luz de estudio: la superficie no es plana
-  ctx.save();
-  siluetaMesa(ctx, redonda, x, y, d);
-  ctx.clip();
-  const luz = ctx.createLinearGradient(x, y, x+d, y+d);
-  luz.addColorStop(0,   "rgba(255,255,255,.18)");
-  luz.addColorStop(.42, "rgba(255,255,255,.03)");
-  luz.addColorStop(1,   "rgba(0,0,0,.10)");
+  // Luz de ventana: entra por el fondo izquierdo y cae hacia el frente
+  const [lx0, ly0] = aPantalla(-.42, -.42, c);
+  const [lx1, ly1] = aPantalla(.42, .42, c);
+  const luz = ctx.createLinearGradient(lx0, ly0, lx1, ly1);
+  luz.addColorStop(0, "rgba(255,255,255,.42)");
+  luz.addColorStop(.34, "rgba(255,255,255,.10)");
+  luz.addColorStop(.68, "rgba(22,32,29,.05)");
+  luz.addColorStop(1, "rgba(22,32,29,.14)");
   ctx.fillStyle = luz;
-  ctx.fillRect(x, y, d, d);
+  ctx.fillRect(0, 0, S, S);
+
+  // Reflejo suave del entorno en el borde del frente
+  const [vx, vy] = aPantalla(0, .5, c);
+  const vin = ctx.createRadialGradient(vx, vy, S*0.02, vx, vy, c.d*0.9);
+  vin.addColorStop(0, "rgba(22,32,29,.10)");
+  vin.addColorStop(1, "rgba(22,32,29,0)");
+  ctx.fillStyle = vin;
+  ctx.fillRect(0, 0, S, S);
   ctx.restore();
 
-  // Canto o aro perimetral, según el material
+  // Filo superior: la arista que separa superficie y canto
   ctx.save();
-  siluetaMesa(ctx, redonda, x, y, d);
-  if(canto.kind === "oro"){
-    ctx.lineWidth = S*0.020;
-    const oro = ctx.createLinearGradient(x, y, x+d, y+d);
-    oro.addColorStop(0,   "#F2DBA2");
-    oro.addColorStop(.32, "#B8914B");
-    oro.addColorStop(.62, "#8F6B2E");
-    oro.addColorStop(1,   "#E8CE8E");
-    ctx.strokeStyle = oro;
-  } else if(canto.kind === "negro"){
-    ctx.lineWidth = S*0.013;
-    ctx.strokeStyle = "#15181A";
-  } else {
-    ctx.lineWidth = S*0.016;
-    ctx.strokeStyle = "rgba(0,0,0,.28)";
-  }
+  trazaContorno(ctx, pts, c, 0);
+  ctx.lineWidth = Math.max(1, S*0.0016);
+  ctx.strokeStyle = mat.canto === "oro" ? "rgba(143,107,46,.55)" : "rgba(20,24,26,.38)";
   ctx.stroke();
   ctx.restore();
 }
 
 function studioEtiqueta(){
-  const redonda = studio.shape === "round";
-  const fin = FINISHES.find(f => f.id === studio.finish) || FINISHES[0];
-  const medida = redonda ? "Ø" + studio.size : studio.size + "×" + studio.size;
-  return `${medida} cm · ${L(fin.name)} · ${studio.logo ? t("withLogo") : t("noLogo")}`;
+  const medida = studio.shape === "round" ? "Ø" + studio.size : studio.size + "×" + studio.size;
+  return `${medida} cm · ${studio.logo ? t("withLogo") : t("noLogo")}`;
 }
 
 function studioControles(){
   const line = studioLine();
   const formas = studioShapes(line);
   const medidas = studioSizes(line);
-  const fin = FINISHES.find(f => f.id === studio.finish) || FINISHES[0];
-  const canto = EDGES[studio.mat] || EDGES.hpl;
+  const mat = MATERIALES[studio.mat] || MATERIALES.hpl;
   return `
     <div class="ctrl ctrl-primero"><div class="config-label">${t("material")}</div><div class="chips">
       ${LINES.map(l => `<button class="chip" data-smat="${l.id}" aria-pressed="${l.id===studio.mat}">${esc(L(CORTOS[l.id] || l.name))}</button>`).join("")}
@@ -963,12 +1025,7 @@ function studioControles(){
         ${medidas.map(n => `<button class="chip" data-ssize="${n}" aria-pressed="${studio.size===n}">${n} cm</button>`).join("")}
       </div></div>
     </div>
-    <div class="ctrl"><div class="config-label">${t("baseLbl")}</div>
-      <div class="swatches">
-        ${FINISHES.map(f => `<button class="swatch" data-sfin="${f.id}" aria-pressed="${f.id===studio.finish}" aria-label="${esc(L(f.name))}" title="${esc(L(f.name))}"><span style="background:${f.img ? `url(${IMG[f.img]}) center/cover` : f.color}"></span></button>`).join("")}
-      </div>
-      <p class="config-label finish-name">${esc(L(fin.name))} · ${esc(L(canto.name))}</p>
-    </div>`;
+    <p class="config-label finish-name">${esc(L(line.name))} · ${esc(L(mat.name))} · ${t("baseNote")}</p>`;
 }
 
 function studioHerramientas(){
@@ -980,6 +1037,7 @@ function studioHerramientas(){
       </label>
       ${studio.logo ? `<button class="btn-mini" data-sact="center">${t("center")}</button>
       <button class="btn-mini" data-sact="quitar">${t("removeLogo")}</button>` : ""}
+      <button class="btn-mini" data-sact="vista">${icon.view}${t("viewReset")}</button>
       <button class="btn-mini" data-sact="descargar">${icon.download}${t("download")}</button>
     </div>
     ${studio.logo ? `<div class="sliders">
@@ -1006,7 +1064,7 @@ function slideStudio(){
     </div>
     <div class="studio-main">
       <div class="studio-stage">
-        <canvas id="mockup" class="mockup" width="1100" height="1100" role="img" aria-label="${t("preview")}"></canvas>
+        <canvas id="mockup" class="mockup" width="1100" height="1100" tabindex="0" role="img" aria-label="${t("preview")}"></canvas>
         <p class="stage-note">${studio.logo ? t("dragHint") : t("logoHint")}</p>
       </div>
       <div class="logo-tools" id="studioTools">${studioHerramientas()}</div>
@@ -1058,35 +1116,71 @@ function descargaMesa(){
   }, "image/png");
 }
 
-/* Arrastrar el logo sobre la mesa */
-let arrastre = false;
-function posEnMesa(e, c){
-  const r = c.getBoundingClientRect();
-  const d = r.width*0.78, x0 = (r.width-d)/2, y0 = (r.height-d)/2;
-  return {
-    x: Math.min(1, Math.max(0, (e.clientX - r.left - x0)/d)),
-    y: Math.min(1, Math.max(0, (e.clientY - r.top  - y0)/d))
-  };
+/* Arrastrar: sobre el logo lo mueve, fuera de él gira la mesa */
+let gesto = null;
+function sobreElLogo(e, cv){
+  if(!studio.logo) return false;
+  const r = cv.getBoundingClientRect();
+  const c = camara(r.width);
+  const [u, v] = aTablero(e.clientX - r.left, e.clientY - r.top, c);
+  let dx = u - (studio.lx - .5), dy = v - (studio.ly - .5);
+  const a = -studio.rot*Math.PI/180;
+  const rx = dx*Math.cos(a) - dy*Math.sin(a), ry = dx*Math.sin(a) + dy*Math.cos(a);
+  const k = studio.ls / Math.max(studio.logo.naturalWidth, studio.logo.naturalHeight);
+  return Math.abs(rx) <= studio.logo.naturalWidth*k/2 && Math.abs(ry) <= studio.logo.naturalHeight*k/2;
 }
 document.addEventListener("pointerdown", e => {
-  const c = e.target.closest("#mockup");
-  if(!c || !studio.logo) return;
-  arrastre = true;
-  c.classList.add("dragging");
-  c.setPointerCapture?.(e.pointerId);
-  const q = posEnMesa(e, c); studio.lx = q.x; studio.ly = q.y;
-  dibujaMesa();
+  const cv = e.target.closest("#mockup");
+  if(!cv) return;
+  cv.setPointerCapture?.(e.pointerId);
+  if(sobreElLogo(e, cv)){
+    gesto = { tipo:"logo" };
+    cv.classList.add("moviendo");
+    mueveLogo(e, cv);
+  } else {
+    gesto = { tipo:"vista", x:e.clientX, y:e.clientY, giro:studio.giro, alzado:studio.alzado };
+    cv.classList.add("girando");
+  }
 });
+function mueveLogo(e, cv){
+  const r = cv.getBoundingClientRect();
+  const c = camara(r.width);
+  const [u, v] = aTablero(e.clientX - r.left, e.clientY - r.top, c);
+  studio.lx = Math.min(1, Math.max(0, u + .5));
+  studio.ly = Math.min(1, Math.max(0, v + .5));
+  dibujaMesa();
+}
 document.addEventListener("pointermove", e => {
-  if(!arrastre) return;
-  const c = document.getElementById("mockup");
-  if(!c) return;
-  const q = posEnMesa(e, c); studio.lx = q.x; studio.ly = q.y;
+  if(!gesto) return;
+  const cv = document.getElementById("mockup");
+  if(!cv) return;
+  if(gesto.tipo === "logo"){ mueveLogo(e, cv); return; }
+  const r = cv.getBoundingClientRect();
+  studio.giro   = Math.max(-42, Math.min(42, gesto.giro   + (e.clientX - gesto.x)/r.width*120));
+  studio.alzado = Math.max(16,  Math.min(88, gesto.alzado - (e.clientY - gesto.y)/r.height*110));
   dibujaMesa();
 });
 document.addEventListener("pointerup", () => {
-  arrastre = false;
-  document.getElementById("mockup")?.classList.remove("dragging");
+  gesto = null;
+  const cv = document.getElementById("mockup");
+  if(cv) cv.classList.remove("girando", "moviendo");
+});
+/* Con el teclado: flechas giran la mesa, con Mayúsculas mueven el logo */
+document.addEventListener("keydown", e => {
+  if(e.target.id !== "mockup") return;
+  const paso = e.shiftKey ? .02 : 4;
+  const mapa = { ArrowLeft:[-1,0], ArrowRight:[1,0], ArrowUp:[0,-1], ArrowDown:[0,1] };
+  const dir = mapa[e.key];
+  if(!dir) return;
+  e.preventDefault();
+  if(e.shiftKey && studio.logo){
+    studio.lx = Math.min(1, Math.max(0, studio.lx + dir[0]*paso));
+    studio.ly = Math.min(1, Math.max(0, studio.ly + dir[1]*paso));
+  } else {
+    studio.giro   = Math.max(-42, Math.min(42, studio.giro + dir[0]*paso));
+    studio.alzado = Math.max(16,  Math.min(88, studio.alzado - dir[1]*paso));
+  }
+  dibujaMesa();
 });
 
 function slideProcess(){
@@ -1270,8 +1364,8 @@ document.addEventListener("click", e=>{
   if(d.smat){ studio.mat = d.smat; studioAjusta(); refrescaEstudio(); return; }
   if(d.sshape){ studio.shape = d.sshape; studioAjusta(); refrescaEstudio(); return; }
   if(d.ssize){ studio.size = +d.ssize; refrescaEstudio(); return; }
-  if(d.sfin){ studio.finish = d.sfin; refrescaEstudio(); return; }
   if(d.sact === "center"){ studio.lx = .5; studio.ly = .5; dibujaMesa(); return; }
+  if(d.sact === "vista"){ studio.giro = -24; studio.alzado = 56; dibujaMesa(); return; }
   if(d.sact === "quitar"){ studio.logo = null; studio.err = ""; refrescaEstudio(); return; }
   if(d.sact === "descargar"){ descargaMesa(); return; }
   if(d.sact === "anadir"){
@@ -1361,7 +1455,7 @@ function toggleFs(){
   else document.exitFullscreen?.();
 }
 document.addEventListener("keydown", e=>{
-  if(e.target.matches("input, textarea")) return;
+  if(e.target.matches("input, textarea") || e.target.id === "mockup") return;
   const lbOpen = document.getElementById("lightbox").classList.contains("open");
   const anyOpen = document.querySelector(".overlay.open");
   if(e.key==="Escape"){ closeOverlays(); return; }
