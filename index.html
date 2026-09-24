@@ -517,14 +517,14 @@ const LINES = [
           en:"Outdoor table top with your brand printed across the whole surface. Round or square, ready for the terrace."},
     specs:[["material",{es:"Wermodin",en:"Wermodin"}],["use",{es:"Exterior",en:"Outdoor"}],["custom",{es:"Logo impreso",en:"Printed logo"}]],
     sizes:["R60","60x60","R70","70x70","R80","80x80"] },
-  { id:"hidrofugo-pp", img:["render-berliner","render-aeropuerto","render-el-chapo"],
+  { id:"hidrofugo-pp", img:["render-berliner","render-aeropuerto","render-el-chapo","taller-havana","taller-desperados"],
     kind:{es:"Resistente a la humedad",en:"Moisture-resistant"},
     name:{es:"Aglomerado hidrófugo con aro de PP",en:"Moisture-resistant chipboard with PP ring"},
     desc:{es:"Tablero de aglomerado hidrófugo con aro perimetral de polipropileno y el logo de tu marca. Es la línea con más medidas, y hay otras bajo demanda.",
           en:"Moisture-resistant chipboard top with a polypropylene edge ring and your brand logo. It has the widest size range, and other sizes are available on request."},
     specs:[["material",{es:"Aglomerado hidrófugo",en:"Moisture-resistant chipboard"}],["edge",{es:"Aro de polipropileno (PP)",en:"Polypropylene (PP) ring"}],["custom",{es:"Logo",en:"Logo"}]],
     sizes:["R60","60x60","R70","70x70","R77","77x77","R80","80x80"], onDemand:true },
-  { id:"hpl", img:["1664-redondo","1664-terrazo","mosaico","biang-azul","biang-canto","salitos-negro","pops-pizza","havana-desperados","taller-havana","taller-desperados","taller-fijacion"],
+  { id:"hpl", img:["1664-redondo","1664-terrazo","mosaico","biang-azul","biang-canto","salitos-negro","pops-pizza","havana-desperados","taller-fijacion"],
     kind:{es:"Compacto con fijación",en:"Compact with fixing system"},
     name:{es:"Tableros HPL con logo",en:"HPL tops with logo"},
     desc:{es:"Tablero de HPL compacto con impresión a todo color: logos, fondos y motivos gráficos. Incluye el sistema de fijación a la base y se fabrica en cualquier medida, redondo o cuadrado.",
@@ -562,9 +562,9 @@ const T = {
     shape:"Forma", round:"Redonda", square:"Cuadrada", size:"Medida", baseNote:"base neutra para ver el logo", preview:"Tu tablero con tu logo, en 3D",
     viewReset:"Vista inicial",
     logoBtn:"Subir mi logo", changeLogo:"Cambiar logo", removeLogo:"Quitar logo", center:"Centrar",
-    logoHint:"Arrastra la mesa para girarla. Sube tu logo en PNG con fondo transparente, SVG o JPG.",
+    logoHint:"Arrastra la mesa para girarla. Sube tu logo en PNG, JPG, SVG, WEBP o PDF; si lleva fondo transparente, mejor.",
     dragHint:"Arrastra el logo para colocarlo y la mesa para girarla en 3D.",
-    logoErr:"No hemos podido abrir esa imagen. Prueba con un PNG o un JPG.", downErr:"Para descargar la imagen, abre la presentación desde su enlace web.", logoBig:"La imagen pesa más de 8 MB. Sube una más ligera.",
+    logoErr:"No hemos podido abrir ese archivo. Prueba con un PNG o un JPG.", logoPdf:"Abriendo el PDF…", logoPdfErr:"No hemos podido abrir ese PDF. Expórtalo como PNG y vuelve a subirlo.", downErr:"Para descargar la imagen, abre la presentación desde su enlace web.", logoBig:"El archivo pesa más de 20 MB. Sube uno más ligero.",
     logoSize:"Tamaño del logo", logoRot:"Giro", download:"Descargar la imagen", withLogo:"con logo", noLogo:"sin logo",
     attachHint:"Al enviar la solicitud, adjunta tu logo al correo o descarga la imagen y añádela.",
     processTitle:"Del logo a la terraza en cuatro pasos",
@@ -601,9 +601,9 @@ const T = {
     shape:"Shape", round:"Round", square:"Square", size:"Size", baseNote:"neutral base so the logo reads", preview:"Your table top with your logo, in 3D",
     viewReset:"Reset view",
     logoBtn:"Upload my logo", changeLogo:"Change logo", removeLogo:"Remove logo", center:"Centre",
-    logoHint:"Drag the table to turn it. Upload your logo as a transparent PNG, an SVG or a JPG.",
+    logoHint:"Drag the table to turn it. Upload your logo as PNG, JPG, SVG, WEBP or PDF; a transparent background works best.",
     dragHint:"Drag the logo to place it and the table to turn it in 3D.",
-    logoErr:"We could not open that image. Try a PNG or a JPG.", downErr:"To download the image, open the presentation from its web link.", logoBig:"That image is over 8 MB. Please upload a lighter one.",
+    logoErr:"We could not open that file. Try a PNG or a JPG.", logoPdf:"Opening the PDF…", logoPdfErr:"We could not open that PDF. Export it as a PNG and upload it again.", downErr:"To download the image, open the presentation from its web link.", logoBig:"That file is over 20 MB. Please upload a lighter one.",
     logoSize:"Logo size", logoRot:"Rotation", download:"Download the image", withLogo:"with logo", noLogo:"no logo",
     attachHint:"When you send the request, attach your logo to the email or download the image and add it.",
     processTitle:"From logo to terrace in four steps",
@@ -1032,7 +1032,7 @@ function studioHerramientas(){
   return `
     <div class="logo-row">
       <label>
-        <input class="file-field" type="file" id="logoFile" accept="image/png,image/jpeg,image/svg+xml,image/webp">
+        <input class="file-field" type="file" id="logoFile" accept="image/*,.pdf,.ai,application/pdf">
         <span class="btn-mini" role="button" tabindex="-1">${icon.upload}${studio.logo ? t("changeLogo") : t("logoBtn")}</span>
       </label>
       ${studio.logo ? `<button class="btn-mini" data-sact="center">${t("center")}</button>
@@ -1041,12 +1041,12 @@ function studioHerramientas(){
       <button class="btn-mini" data-sact="descargar">${icon.download}${t("download")}</button>
     </div>
     ${studio.logo ? `<div class="sliders">
-      <label class="slider"><span class="config-label">${t("logoSize")}</span>
-        <input type="range" min="8" max="92" value="${Math.round(studio.ls*100)}" data-sls></label>
+      <label class="slider"><span class="config-label">${t("logoSize")} · <b id="lsVal">${Math.round(studio.ls*100)}%</b></span>
+        <input type="range" min="5" max="200" value="${Math.round(studio.ls*100)}" data-sls></label>
       <label class="slider"><span class="config-label">${t("logoRot")}</span>
         <input type="range" min="-180" max="180" value="${studio.rot}" data-srot></label>
     </div>` : ""}
-    ${studio.err ? `<p class="studio-err">${studio.err}</p>` : ""}
+    ${studio.err ? `<p class="studio-err"${studio.err === t("logoPdf") ? ' style="color:var(--muted)"' : ""}>${studio.err}</p>` : ""}
     <div class="add-row">
       <button class="btn btn-ink" data-sact="anadir">${t("add")}</button>
       <span class="hint">${t("attachHint")}</span>
@@ -1085,17 +1085,71 @@ function refrescaEstudio(soloMesa){
   dibujaMesa();
 }
 
+function aplicaLogo(img){
+  studio.logo = img;
+  studio.lx = .5; studio.ly = .5; studio.rot = 0; studio.ls = .46;
+  studio.err = "";
+  refrescaEstudio();
+}
+
+/* pdf.js solo se descarga si alguien sube un PDF */
+let pdfjs = null;
+function cargaPdfJs(){
+  if(window.pdfjsLib) return Promise.resolve(window.pdfjsLib);
+  if(!pdfjs){
+    pdfjs = new Promise((ok, fallo) => {
+      const sc = document.createElement("script");
+      sc.src = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
+      sc.onload = () => {
+        if(!window.pdfjsLib) return fallo();
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+        ok(window.pdfjsLib);
+      };
+      sc.onerror = fallo;
+      document.head.appendChild(sc);
+    });
+  }
+  return pdfjs;
+}
+
+/* La primera página del PDF se pinta y se usa como si fuera una imagen */
+async function logoDesdePdf(file){
+  const lib = await cargaPdfJs();
+  const doc = await lib.getDocument({ data: await file.arrayBuffer() }).promise;
+  const pagina = await doc.getPage(1);
+  const base = pagina.getViewport({ scale: 1 });
+  const escala = Math.min(1800/base.width, 1800/base.height, 6);
+  const vista = pagina.getViewport({ scale: escala });
+  const lienzo = document.createElement("canvas");
+  lienzo.width = Math.round(vista.width);
+  lienzo.height = Math.round(vista.height);
+  await pagina.render({ canvasContext: lienzo.getContext("2d"), viewport: vista, background: "rgba(0,0,0,0)" }).promise;
+  return new Promise((ok, fallo) => {
+    const img = new Image();
+    img.onload = () => ok(img);
+    img.onerror = fallo;
+    img.src = lienzo.toDataURL("image/png");
+  });
+}
+
 function cargaLogo(file){
   if(!file) return;
   studio.err = "";
-  if(file.size > 8*1024*1024){ studio.err = t("logoBig"); refrescaEstudio(); return; }
+  if(file.size > 20*1024*1024){ studio.err = t("logoBig"); refrescaEstudio(); return; }
+
+  const esPdf = file.type === "application/pdf" || /\.(pdf|ai)$/i.test(file.name);
+  if(esPdf){
+    studio.err = t("logoPdf");
+    refrescaEstudio();
+    logoDesdePdf(file)
+      .then(aplicaLogo)
+      .catch(() => { studio.err = t("logoPdfErr"); refrescaEstudio(); });
+    return;
+  }
+
   const url = URL.createObjectURL(file);
   const img = new Image();
-  img.onload = () => {
-    studio.logo = img;
-    studio.lx = .5; studio.ly = .5; studio.rot = 0; studio.ls = .46;
-    refrescaEstudio();
-  };
+  img.onload = () => { aplicaLogo(img); };
   img.onerror = () => { URL.revokeObjectURL(url); studio.err = t("logoErr"); refrescaEstudio(); };
   img.src = url;
 }
@@ -1404,7 +1458,13 @@ document.addEventListener("change", e=>{
 
 document.addEventListener("input", e=>{
   const d = e.target.dataset;
-  if(d.sls !== undefined){ studio.ls = (+e.target.value)/100; dibujaMesa(); return; }
+  if(d.sls !== undefined){
+    studio.ls = (+e.target.value)/100;
+    const v = document.getElementById("lsVal");
+    if(v) v.textContent = e.target.value + "%";
+    dibujaMesa();
+    return;
+  }
   if(d.srot !== undefined){ studio.rot = +e.target.value; dibujaMesa(); return; }
   if(d.free){ (state.choice[d.free] ||= {}).free = e.target.value.trim(); }
   if(d.qtyin !== undefined){ const v = parseInt(e.target.value,10); if(v>0){ state.cart[+d.qtyin].qty = v; updateBadge(); } }
